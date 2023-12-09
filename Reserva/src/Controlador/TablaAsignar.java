@@ -74,7 +74,7 @@ public class TablaAsignar implements Initializable {
     public void agregarHora(){// metodo solo se usa para cargar una sola vez las horas en BD, Sino se cargarian vrias veces el mismo dato con distinto id
       
         for(int h=8 ; h < 22; h++){              
-            //lista.addAll(new Horario("  9:00", "matematicas ", "","","","" ));           
+           //lista.addAll(new Horario("  9:00", "matematicas ", "","","","" ));           
             //String bandera= h +":00"+" a " + a +":00" ; 
             String bandera= h+"";          
             insertarHorario(bandera);
