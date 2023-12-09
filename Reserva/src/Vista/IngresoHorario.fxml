@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="289.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.IngresoHorario">
+   <children>
+      <VBox layoutY="200.0" prefHeight="72.0" prefWidth="300.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+         <children>
+            <HBox maxHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0">
+               <children>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarReserva" prefHeight="25.0" prefWidth="114.0" text="Guardar">
+                     <HBox.margin>
+                        <Insets left="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#actionEvent" prefHeight="25.0" prefWidth="118.0" text="Eliminar">
+                     <HBox.margin>
+                        <Insets left="5.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#actionEvent" prefHeight="25.0" prefWidth="117.0" text="Modificar">
+                     <HBox.margin>
+                        <Insets left="5.0" right="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <ComboBox fx:id="comboNumeroAula" layoutX="85.0" layoutY="55.0" prefWidth="179.0" promptText="Numero Aula" />
+      <ComboBox fx:id="comboHora" layoutX="84.0" layoutY="90.0" prefWidth="180.0" promptText="Hora" />
+      <DatePicker fx:id="dateFecha" layoutX="84.0" layoutY="160.0" />
+      <ComboBox fx:id="comboNumeroEdificio" layoutX="85.0" layoutY="20.0" prefWidth="179.0" promptText="Numero Edificio" />
+      <ComboBox fx:id="comboDia" layoutX="81.0" layoutY="125.0" prefWidth="180.0" promptText="Dia" />
+   </children>
+</AnchorPane>

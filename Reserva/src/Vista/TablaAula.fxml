@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #7A2020;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.TablaAula">
+   <children>
+      <VBox layoutX="10.0" layoutY="24.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="textBuscar" prefHeight="25.0" prefWidth="176.0" promptText="Buscar" />
+                  <ChoiceBox fx:id="chcBuscar" prefHeight="25.0" prefWidth="101.0" />
+                  <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarAlumno" prefHeight="25.0" prefWidth="89.0" text="Buscar" />
+                  <TextField fx:id="lblResultado" prefHeight="25.0" prefWidth="86.0" promptText="Resultado" />
+                  <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#refrescar" prefHeight="25.0" prefWidth="89.0" text="Refrescar" />
+                  <Button fx:id="bttNuevoAlumno" mnemonicParsing="false" onAction="#nuevoAula" text="Nuevo" />
+               </children>
+            </HBox>
+            <TableView fx:id="tblAula" onMouseClicked="#seleccionar" prefHeight="390.0" prefWidth="600.0">
+               <columns>
+                  <TableColumn fx:id="colNumAula" prefWidth="95.0" text="Numero Aula" />
+                  
+                  <TableColumn fx:id="colCapacidad" prefWidth="118.0" text="Capacidad" />
+                  <TableColumn fx:id="colEdificio" prefWidth="118.0" text="Edificio" />
+                
+                 
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
