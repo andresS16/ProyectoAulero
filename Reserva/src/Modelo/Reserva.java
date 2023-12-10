@@ -18,6 +18,7 @@ public class Reserva {
     String carrera;
     int capacidadAula;
     int id_fecha;
+    int id_aula;
 
     public Reserva(int numeroEdificio, int numeroAula, int hora, String dia, LocalDate fecha) {
         this.numeroEdificio = numeroEdificio;
@@ -31,13 +32,23 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String nombreEdificio, int hora, String dia, int id_fecha) {
+    public Reserva(String nombreEdificio, int hora, String dia, int id_fecha, int id_aula) {
         this.nombreEdificio = nombreEdificio;
         this.hora = hora;
         this.dia = dia;
-       
         this.id_fecha = id_fecha;
+        this.id_aula = id_aula;
     }
+
+    public int getId_aula() {
+        return id_aula;
+    }
+
+    public void setId_aula(int id_aula) {
+        this.id_aula = id_aula;
+    }
+
+   
 
     public int getId_fecha() {
         return id_fecha;

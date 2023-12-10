@@ -188,7 +188,7 @@ public class IngresoReserva implements Initializable {
        return lista;             
     }
        
-        public ArrayList<String> seleDia(){
+    public ArrayList<String> seleDia(){
         
         ArrayList<String> lista  = new ArrayList<>();                
         String query = "SELECT 'Lunes' AS dia UNION SELECT 'Martes' UNION SELECT 'Miércoles' UNION SELECT 'Jueves' UNION SELECT 'Viernes';";
@@ -219,16 +219,21 @@ public class IngresoReserva implements Initializable {
          
               
               String nombreEdificio= this.comboNombreEdificio.getValue();
+              //nombreEdificio.trim();
               int numAula = comboNumeroAula.getValue();
              int capAula = Integer.parseInt(this.txtCapacidadAula.getText());
+             
               
            Horario hora = (Horario) comboHora.getValue();
               int horaEntera = Integer.parseInt(hora.getHora());
               String dia = (String) this.comboDia.getValue();
               LocalDate fecha = dateFecha.getValue();
               insertarFecha(fecha);
-              int id=seleIDFecha(fecha);
-              Reserva reserva= new Reserva(nombreEdificio,horaEntera ,dia,id);
+              int id_fecha=seleIDFecha(fecha);
+               int id_aula=numAula(nombreEdificio,capAula );
+               int id_horario_dia=HorarioID(dia,horaEntera);
+               
+              //Reserva reserva= new Reserva(nombreEdificio,horaEntera,dia,id_fecha,id_aula);
               
              /* LocalDate fechaSeleccionada = dateFecha.getValue();
               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -261,7 +266,7 @@ public class IngresoReserva implements Initializable {
     
    public int seleIDFecha(LocalDate fecha){
          int a = 0;      
-        ObservableList<Integer>lista  = FXCollections.observableArrayList();;        
+             
         String query = "select id_fecha FROM fecha where fecha ='"+fecha+"' ";       
         TransaccionesBD trscns = new TransaccionesBD();
         ResultSet rs = trscns.realizarConsulta(query);
@@ -271,7 +276,7 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_fecha");                                     
                     //lista.add(a);
-                    System.out.println("lo que trajo la consulta de numeroAula :"+ a);                  
+                    System.out.println("lo que trajo la consulta de seleFecha :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -279,17 +284,68 @@ public class IngresoReserva implements Initializable {
      JOptionPane.showMessageDialog(null,"el id de la fecha es "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
        return a;          
     }
+   
+   
+    public int numAula(String edificio, int capacidad){
+         int a = 0;      
+              
+        String query = "SELECT id_aula\n" +
+                              "FROM aula\n" +
+                        "WHERE edificio = '"+edificio+"' AND capacidad >= '"+capacidad+"'\n" +
+                        "ORDER BY capacidad ASC\n" +
+                      "LIMIT 1;";       
+        TransaccionesBD trscns = new TransaccionesBD();
+        ResultSet rs = trscns.realizarConsulta(query);
+            
+            try{
+                while(rs.next()){
+                   
+                    a=rs.getInt("id_aula");                                     
+                    //lista.add(a);
+                    System.out.println("lo que trajo la consulta numAula---> id_aula :"+ a);                  
+                }           
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
+            }                                  
+     JOptionPane.showMessageDialog(null,"el id_aula "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+       return a;          
+    }
     
+     public int HorarioID(String dia, int hora){
+         int a = 0;      
+              
+        String query = "SELECT horario_dia.id_horario_dia\n" +
+                            "FROM horario_dia\n" +
+                               "JOIN dia ON horario_dia.id_dia = dia.id_dia\n" +
+                                   "JOIN horario ON horario_dia.id_horario = horario.id_horario\n" +
+                                           "WHERE dia.dia = '"+dia+"' AND hora = '"+hora+"';";       
+        TransaccionesBD trscns = new TransaccionesBD();
+        ResultSet rs = trscns.realizarConsulta(query);
+            
+            try{
+                while(rs.next()){
+                   
+                    a=rs.getInt("id_horario_dia");                                     
+                    //lista.add(a);
+                    System.out.println("lo que trajo la consulta numAula---> id_Horario_Dia :"+ a);                  
+                }           
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null,"error en metodo de Horario_DIA" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
+            }                                  
+     JOptionPane.showMessageDialog(null,"el id_aula "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+       return a;          
+    }
     
+     
     public boolean insertarReserva(Reserva r){
          boolean exito = false;
         try{
                                       
       String query = "INSERT INTO reserva (id_aula, id_horario_dia, id_fecha)\n" +
-  "VALUES (\n" +
+    "VALUES (\n" +
     "    (SELECT id_aula\n" +
       "     FROM aula\n" +
-        "     WHERE edificio = '"+r.getNombreEdificio()+"' AND capacidad = '"+r.getCapacidadAula()+"'),\n" +
+        "     WHERE id_aula = '"+r.getId_aula()+"' AND capacidad = '"+r.getCapacidadAula()+"'),\n" +
            "    (SELECT id_horario_dia\n" +
               "     FROM horario_dia\n" +
                  "     WHERE id_dia = (SELECT id_dia FROM dia WHERE dia = '"+r.getDia()+"')\n" +
