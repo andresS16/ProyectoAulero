@@ -233,13 +233,17 @@ public class IngresoReserva implements Initializable {
                int id_aula=numAula(nombreEdificio,capAula );
                int id_horario_dia=HorarioID(dia,horaEntera);
                
-              //Reserva reserva= new Reserva(nombreEdificio,horaEntera,dia,id_fecha,id_aula);
+               System.out.println("id_aula :"+id_aula);  
+               System.out.println("id_horario_dia :"+id_horario_dia);  
+               System.out.println("id_fecha : "+id_fecha);  
+               
+              Reserva reserva= new Reserva(id_aula,id_horario_dia,id_fecha); 
               
              /* LocalDate fechaSeleccionada = dateFecha.getValue();
               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                String fechaFormateada = fechaSeleccionada.format(formatter);*/
       
-             // insertar(reserva);
+              insertarReserva(reserva);
                  
          
         // }else{
@@ -253,9 +257,9 @@ public class IngresoReserva implements Initializable {
         boolean exito = false ;
          try{
               String sqlFecha = "INSERT INTO `fecha` (`id_fecha`, `fecha`) VALUES (NULL, '"+fecha+"');";                           
-                TransaccionesBD trscns = new TransaccionesBD();
-            exito = trscns.ejecutarQuery(sqlFecha ); 
-                  
+              TransaccionesBD trscns = new TransaccionesBD();
+              exito = trscns.ejecutarQuery(sqlFecha ); 
+                 System.out.println("metodo insertaFecha :");  
               }catch(Exception ex){
                   JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
               
@@ -265,8 +269,8 @@ public class IngresoReserva implements Initializable {
     }
     
    public int seleIDFecha(LocalDate fecha){
-         int a = 0;      
-             
+       
+        int a = 0;                  
         String query = "select id_fecha FROM fecha where fecha ='"+fecha+"' ";       
         TransaccionesBD trscns = new TransaccionesBD();
         ResultSet rs = trscns.realizarConsulta(query);
@@ -276,7 +280,7 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_fecha");                                     
                     //lista.add(a);
-                    System.out.println("lo que trajo la consulta de seleFecha :"+ a);                  
+                    System.out.println("id de fechas traidas de BD :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -287,8 +291,7 @@ public class IngresoReserva implements Initializable {
    
    
     public int numAula(String edificio, int capacidad){
-         int a = 0;      
-              
+        int a = 0;                   
         String query = "SELECT id_aula\n" +
                               "FROM aula\n" +
                         "WHERE edificio = '"+edificio+"' AND capacidad >= '"+capacidad+"'\n" +
@@ -302,16 +305,16 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_aula");                                     
                     //lista.add(a);
-                    System.out.println("lo que trajo la consulta numAula---> id_aula :"+ a);                  
+                    System.out.println("Metodo numAula---> id_aula :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-     JOptionPane.showMessageDialog(null,"el id_aula "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+                        //JOptionPane.showMessageDialog(null,"el id_aula "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
        return a;          
     }
     
-     public int HorarioID(String dia, int hora){
+    public int HorarioID(String dia, int hora){
          int a = 0;      
               
         String query = "SELECT horario_dia.id_horario_dia\n" +
@@ -327,41 +330,30 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_horario_dia");                                     
                     //lista.add(a);
-                    System.out.println("lo que trajo la consulta numAula---> id_Horario_Dia :"+ a);                  
+                    System.out.println("Metodo id_Horario_Dia :"+ a);                  
                 }           
             }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null,"error en metodo de Horario_DIA" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
+                         JOptionPane.showMessageDialog(null,"error en metodo de Horario_DIA" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-     JOptionPane.showMessageDialog(null,"el id_aula "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+                           
        return a;          
     }
     
      
     public boolean insertarReserva(Reserva r){
-         boolean exito = false;
-        try{
-                                      
-      String query = "INSERT INTO reserva (id_aula, id_horario_dia, id_fecha)\n" +
-    "VALUES (\n" +
-    "    (SELECT id_aula\n" +
-      "     FROM aula\n" +
-        "     WHERE id_aula = '"+r.getId_aula()+"' AND capacidad = '"+r.getCapacidadAula()+"'),\n" +
-           "    (SELECT id_horario_dia\n" +
-              "     FROM horario_dia\n" +
-                 "     WHERE id_dia = (SELECT id_dia FROM dia WHERE dia = '"+r.getDia()+"')\n" +
-                    "     AND id_horario = (SELECT id_horario FROM horario WHERE hora = '"+r.getHora()+"')),\n" +
-                       "    '"+r.getId_fecha()+"'\n" +
-                             ");";
         
-         TransaccionesBD trscns = new TransaccionesBD();
-                 exito = trscns.ejecutarQuery(query); 
-                 }catch(Exception ex){
-                  JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-              
-              }
-      
+        boolean exito = false;
+        try{                                     
+               // String query = "INSERT INTO reserva (id_aula, id_horario_dia, id_fecha)\n" + "VALUES ("+r.getId_aula()+", "+r.getId_horario_dia()+", "+r.getId_fecha()+")";
                 
+             String query ="INSERT INTO `reserva` (`id_horario_dia`, `id_fecha`, `id_aula`) VALUES ('"+r.getId_aula()+"', '"+r.getId_horario_dia()+"', '"+r.getId_fecha()+"')";
 
+                TransaccionesBD trscns = new TransaccionesBD();
+                exito = trscns.ejecutarQuery(query); 
+                System.out.println("Metodo insertar reserva");  
+       }catch(Exception ex){
+               JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);             
+              }                
   return exito;
     }
 
