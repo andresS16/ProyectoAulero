@@ -72,14 +72,28 @@ public class TablaHorario implements Initializable {
     private Button bttNuevaReserva;
     
     
-   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {// alert verde.. ver si hay errores crear tabla siguiendo formato de tabla alumno para aprovechar formato
        configurarVentana();
        rellenarTablaHorario();
         //agregarHora(); SE CARGA LA HORA UNA VEZ
-    
+        Horario horario= new Horario();
+        horario.setHora("10");
+       /* horario.setLunes("vlos");
+        horario.setMartes("vatta");*/
+        horario.setMiercoles("reservado");
+        //this.listaHorario.add(horario);
+        //this.tblHorario.setItems(listaHorario);
+        
+         TablaHorario tabla= new TablaHorario();
+        ObservableList<Horario> resultado=tabla.buscarHoraDia();  
+        
+         //listaHorario.setAll(resultado);
+       
+
+       
+        
         /*try {                
             asociarHorario_Dia();
         } catch (SQLException ex) {
@@ -95,6 +109,7 @@ public class TablaHorario implements Initializable {
             String bandera= h+"";          
             insertarHorario(bandera);
             listaHorario.addAll(new Horario(bandera));
+            //listaHorario.addAll(new Horario("martes"));
         }   
     }
     
@@ -112,19 +127,24 @@ public class TablaHorario implements Initializable {
         colJueves.setCellValueFactory(new PropertyValueFactory<>("jueves")); 
         colViernes.setCellValueFactory(new PropertyValueFactory<>("viernes")); 
         //fechaColumna.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        
-        tblHorario.setItems(listaHorario);               
+      
+        tblHorario.setItems(listaHorario);    
+          
+       
     }
     
     public void rellenarTablaHorario(){ //consulta en BD trae y setea elementos en la tabla     
         //aulas.clear();                   
        TablaHorario tabla= new TablaHorario();
         ObservableList<Horario> resultado=tabla.buscarTodos();  
+        
          listaHorario.setAll(resultado);
        // tblAula.setItems(resultado);
         //int resultados=resultado.size();       
         //lblResultado.setText("resultado :" + resultados);                    
-        //cuantos resultados hay en la lista                                                     
+        //cuantos resultados hay en la lista 
+        
+        
     }
     
     public ObservableList<Horario> buscarTodos(){
@@ -141,6 +161,43 @@ public class TablaHorario implements Initializable {
                      a=new Horario();
                      Horario a1 = new Horario();
                      a.setHora(rs.getString("hora"));
+                    
+                    // a.setCapacidad(rs.getInt("capacidad")); 
+                     String suma= a.getHora();
+                    int valor= Integer.parseInt(suma)+1;
+                    a1.setHora(a.getHora()+":00"+" a "+ valor+":00");
+
+                     listaMetodoBuscar.add(a1);                                      
+                     }  
+                     rs.close();
+                 }catch(SQLException ex){
+                     JOptionPane.showMessageDialog(null,"error al buscar horario" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
+                 }
+       return listaMetodoBuscar;
+       }
+        public ObservableList<Horario> buscarHoraDia(){
+                     
+        String query = "SELECT \n"+ "    CASE \n" +
+                                    "        WHEN horario.hora = '15:00' THEN 'reserva'\n" +
+                                    "        ELSE horario.hora\n" +
+                                    "    END AS hora_reserva,\n" +
+                                    "    dia.dia\n" +
+                                    "FROM horario\n" +
+                                    "JOIN dia ON horario.hora = dia.dia\n" +
+                                    "WHERE horario.hora >= '08:00' AND horario.hora <= '21:00' AND dia.dia = 'miércoles'";
+        TransaccionesBD trscns = new TransaccionesBD(); 
+        ResultSet rs = trscns.realizarConsulta(query);
+        Horario a =null;                 
+        ObservableList<Horario>listaMetodoBuscar= FXCollections.observableArrayList();
+       
+            try{
+                 while(rs.next()){  
+
+                     a=new Horario();
+                     Horario a1 = new Horario();
+                     a.setHora(rs.getString("hora"));
+                     a.setLunes(rs.getString("dia"));
+                    
                     // a.setCapacidad(rs.getInt("capacidad")); 
                      String suma= a.getHora();
                     int valor= Integer.parseInt(suma)+1;
@@ -155,6 +212,16 @@ public class TablaHorario implements Initializable {
        return listaMetodoBuscar;
        }
         
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
     public boolean insertarHorario(String a){        
         String query = "INSERT INTO horario(hora)" + "VALUES(' " + a + "' )";
        // String query ="INSERT INTO `fecha`(`fecha`) VALUES ('"+a+"')";
@@ -230,11 +297,16 @@ public class TablaHorario implements Initializable {
 
     @FXML
     private void refrescar(ActionEvent event) {
+         for(String dia: listaDia){
+            System.out.println("dia "+ dia);         
+         }
+          System.out.println("dia ");   
     }
 
 
     @FXML
     private void seleccionar(MouseEvent event) {
+         
         Horario c = this.tblHorario.getSelectionModel().getSelectedItem();    
        
         if(c ==null){            
