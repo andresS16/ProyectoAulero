@@ -224,7 +224,7 @@ public class TablaAula implements Initializable {
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,"error al buscar numero de aula " + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-                     // JOptionPane.showMessageDialog(null, "saliendo de metodo buscar por id ", "Error",JOptionPane.WARNING_MESSAGE);       
+                     //JOptionPane.showMessageDialog(null, "saliendo de metodo buscar por id ", "Error"+ a.getNumAula(),JOptionPane.WARNING_MESSAGE);       
                      return a;                                  
      }
    

@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
 
 /**
  * FXML Controller class
@@ -103,7 +104,7 @@ public class IngresoAula implements Initializable {
             this.txtNumeroAula.setText(a.getNumAula()+ "");         
             this.txtCapacidad.setText(a.getCapacidad()+"") ;
             this.comboEdificio.setValue(a.getEdificio());
-            JOptionPane.showMessageDialog(null, "ENTRO AL METODO TraerAula con numeroAula = " + a.getNumAula(), "Error",JOptionPane.WARNING_MESSAGE); 
+            JOptionPane.showMessageDialog(null, "controladorIngresoAula : Entro al metodo TraerAula con numeroAula = " + a.getNumAula(), "Error",JOptionPane.WARNING_MESSAGE); 
             }
              String query= "select numeroAula , capacidad , edificio ,id_aula from aula where numeroAula='"+a.getNumAula()+ "'";
              TransaccionesBD trscns = new TransaccionesBD();
@@ -120,46 +121,66 @@ public class IngresoAula implements Initializable {
                     }   return a;           
    }
          
-   private void guardarAula() {
-         Aula a = new Aula();          
-         IngresoAula ia = new IngresoAula();
-         TablaAula ta = new TablaAula();
-                                         
-        if(this.txtNumeroAula.getText().isEmpty() || this.txtCapacidad.getText().isEmpty() || comboEdificio.getValue()== null ){           
-            JOptionPane.showMessageDialog(null,"falta llenar los campos" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);            
-            //ta.rellenarTablaAula();
-                   
-        } else {            
-                boolean isNumerico = this.txtNumeroAula.getText().chars().allMatch( Character::isDigit );
+     private void guardarAula() {
+            Aula a = new Aula();
+             Aula a1 = new Aula();
+
+            IngresoAula ia = new IngresoAula();
+            TablaAula ta = new TablaAula();
+
+         
+         
+       if(this.txtNumeroAula.getText().isEmpty() || this.txtCapacidad.getText().isEmpty() || comboEdificio.getSelectionModel().getSelectedItem()== null){
+      JOptionPane.showMessageDialog(null,"campos vacios " ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+       
+       }else{
+          a1 = ta.buscarAulaNumero(Integer.parseInt(this.txtNumeroAula.getText())); 
+          
+            if(a1 ==null  ){
+                
+                 JOptionPane.showMessageDialog(null,"Es distinto de null" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+                 boolean isNumerico = this.txtNumeroAula.getText().chars().allMatch( Character::isDigit );
                 boolean isNumerico1 = this.txtCapacidad.getText().chars().allMatch( Character::isDigit );
-
-                    if(isNumerico != false && isNumerico1 != false) {              
-                        boolean isNumero = false;                                                                                                                                
-                    Aula a1 = ta.buscarAulaNumero(Integer.parseInt(this.txtNumeroAula.getText())); 
-                   
-                            if(a1 !=null ){                                    
-                                JOptionPane.showMessageDialog(null,"El aula ya existe" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);                                                                     
-                                }else {                                                                                                                                                                                                                                                 
-                                    a.setNumAula(Integer.parseInt(this.txtNumeroAula.getText()));
-                                    a.setCapacidad(Integer.parseInt(this.txtCapacidad.getText()));
-                                    a.setEdificio(comboEdificio.getValue());
-                                    ia.insertar(a);
-                                   // Edificio edi=buscarID(this.comboEdificio.getValue());
-                                    //actualizarSumaEdificio(edi.getId());
-                                    actualizarSumaEdificio();
-
+                
+                if(isNumerico != false && isNumerico1 != false){
+                    boolean isNumero = false; 
+                    JOptionPane.showMessageDialog(null,"si es numero" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);  
+                     a.setNumAula(Integer.parseInt(this.txtNumeroAula.getText()));
+                     a.setCapacidad(Integer.parseInt(this.txtCapacidad.getText()));
+                     a.setEdificio(comboEdificio.getSelectionModel().getSelectedItem());
+                     System.out.println("el edificio es :"+a.getEdificio());
+                                
+                                
+                    if(!a.equals(a1)){                                                                                                                                                                                                                                                 
+                        a.setNumAula(Integer.parseInt(this.txtNumeroAula.getText()));
+                        a.setCapacidad(Integer.parseInt(this.txtCapacidad.getText()));
+                        a.setEdificio(comboEdificio.getValue());
+                        ia.insertar(a);
+                       //Edificio edi=buscarID(this.comboEdificio.getValue());
+                       //actualizarSumaEdificio(edi.getId());
+                      actualizarSumaEdificio();
                                     
-                                    JOptionPane.showMessageDialog(null,"Se guardo correctamente" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);   
-                                    Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
+                        JOptionPane.showMessageDialog(null,"Se guardo correctamente" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);   
+                         Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
                                    
-                                    stage.close();  
+                        stage.close();  
                                     //ta.refresch();//return;
                                     //ta.configurarVentana();
-                                }                                                                                                                 
-                }else{                
-                    JOptionPane.showMessageDialog(null,"Debe ingresar numeros " ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
-                  }          
-            }            
+                     }else{
+                          JOptionPane.showMessageDialog(null,"El aula ya existe" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
+                        } 
+                    
+                }else{
+                    
+                  JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);   
+                }
+                               
+                 
+            }else{
+                
+            JOptionPane.showMessageDialog(null,"el aula ya existe" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+            }      
+        }   
     }
      
     private void eliminarAula() {
@@ -224,7 +245,7 @@ public class IngresoAula implements Initializable {
                nombre = this.comboEdificio.getValue();              
             }
                                 
-           String query = "UPDATE edificio SET cantidadAula = cantidadAula + 1 WHERE nombre = '" + nombre.trim() + "'";
+           String query = "UPDATE edificio SET cantidadAula = cantidadAula +1 WHERE nombre = '" + nombre.trim() + "'";
              
                 TransaccionesBD trscns = new TransaccionesBD();
                 boolean exito = trscns.ejecutarQuery(query);  
@@ -253,7 +274,7 @@ public class IngresoAula implements Initializable {
            nombre = this.comboEdificio.getValue();
                 String trim = nombre.trim();
            System.out.println("Valor de nombre: '" + nombre + "'");
-           String query = "UPDATE edificio SET cantidadAula = cantidadAula - 1 WHERE nombre = '" +trim + "'";
+           String query = "UPDATE edificio SET cantidadAula = cantidadAula - 1 WHERE nombre = '" +trim.trim() + "'";
      
                 TransaccionesBD trscns = new TransaccionesBD();
                 boolean exito = trscns.ejecutarQuery(query);  
@@ -271,18 +292,72 @@ public class IngresoAula implements Initializable {
       }      
           
     public void vaciarCampos(){            
-        txtNumeroAula.setText("");                   
-        txtCapacidad.setText("");         
+               
     }
     
     private void ModificarAula() {   
-        if(this.txtNumeroAula.getText()!=null && this.txtCapacidad.getText()!=null && comboEdificio.getValue()!= null){  
+
+        if(txtNumeroAula.getText().isEmpty() && txtCapacidad.getText().isEmpty()) { //validacion general de las cajas de texto
+                         JOptionPane.showMessageDialog(null, "Debe llenar campos", "Aviso", JOptionPane.INFORMATION_MESSAGE); 
+            } else if (txtNumeroAula.getText().isEmpty() || txtCapacidad.getText().isEmpty()) { //validacion puntual
+                         JOptionPane.showMessageDialog(null, "Debe ingresar valores en ambos campos", "Aviso", JOptionPane.INFORMATION_MESSAGE); 
+               } else {
+                         JOptionPane.showMessageDialog(null, "Cargar operación", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                         boolean camposLlenos = !txtNumeroAula.getText().isEmpty()//validacion
+                                         && !txtCapacidad.getText().isEmpty() 
+                                         && comboEdificio.getValue() != null;
+
+                  if (!camposLlenos) { 
+                         JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                     } else {
+                         // Otras validaciones o procesamiento si es necesario
+                         JOptionPane.showMessageDialog(null, "Todos los campos están llenos. Puede proceder.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                           Aula a = new Aula();               
+                                     TablaAula ta = new TablaAula();   
+                                     Stage stage= (Stage)this.anchorPane.getScene().getWindow();//paso 1
+                                     Aula u = (Aula)stage.getUserData();//paso2
+                                     a.setNumAula(Integer.parseInt(txtNumeroAula.getText()));
+                                     a.setCapacidad(Integer.parseInt(this.txtCapacidad.getText()));
+                                     a.setEdificio(this.comboEdificio.getValue());        
+                                     String valor =this.comboEdificio.getValue();
+                                     
+                                     if(a.equals(u) ){ 
+                   
+                                            JOptionPane.showMessageDialog(null,"numero aula y edificio son iguales " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);                          
+                                         }if(a.getCapacidad() != u.getCapacidad()){
+                                                  String query = "UPDATE aula SET "
+                                                     + "numeroAula = '" +this.txtNumeroAula.getText()+ "',"
+                                                     + " capacidad ='"  + this.txtCapacidad.getText() + "',"
+                                                  + " edificio='"  + this.comboEdificio.getValue() + "' WHERE id_aula = '" + u.getId()+"' " ;
+
+                                                 TransaccionesBD trscns = new TransaccionesBD();
+                                                 boolean exito = trscns.ejecutarQuery(query);
+                                                 JOptionPane.showMessageDialog(null,"aula modificada " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
+                                               // vaciarCampos();
+                                                 stage =(Stage) this.btnModificar.getScene().getWindow();
+                                                 stage.close(); 
+                                                 ta.refresch();
+
+                                              }else{
+                                                   JOptionPane.showMessageDialog(null,"Haga un refrech luego seleccione aula" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+                                                    stage =(Stage) this.btnModificar.getScene().getWindow();
+                                                    stage.close();
+                                               }
+                                      
+                     }
+                 }
+        
+    }
+        
+        
+      /*  if(this.txtNumeroAula.getText()!=null  && comboEdificio.getValue()!= null && this.txtCapacidad.getText().isEmpty()&& this.txtCapacidad.getText()!=null ){  
                 Aula a = new Aula();               
                 TablaAula ta = new TablaAula();   
                 Stage stage= (Stage)this.anchorPane.getScene().getWindow();//paso 1
                 Aula u = (Aula)stage.getUserData();//paso2
-                a.setNumAula(Integer.parseInt(this.txtNumeroAula.getText()));
-                a.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+                a.setNumAula(Integer.parseInt(txtNumeroAula.getText()));
+                a.setCapacidad(Integer.parseInt(this.txtCapacidad.getText()));
                 a.setEdificio(this.comboEdificio.getValue());        
                 String valor =this.comboEdificio.getValue();
 
@@ -294,11 +369,10 @@ public class IngresoAula implements Initializable {
                 //rellenarTablaMateria();
                 return ;
 
-              } else if(a.equals(u)){ 
+              } else if(a.equals(u) ){ 
                    
-                      JOptionPane.showMessageDialog(null,"Debe ingresar modificaciones " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);                          
-
-                    }else if(!a.equals(u)){
+                      JOptionPane.showMessageDialog(null,"numero aula y edificio son iguales " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);                          
+                   if(a.getCapacidad() != u.getCapacidad() && !this.txtCapacidad.getText().isEmpty()){
                             String query = "UPDATE aula SET "
                                + "numeroAula = '" +this.txtNumeroAula.getText()+ "',"
                                + " capacidad ='"  + this.txtCapacidad.getText() + "',"
@@ -316,12 +390,13 @@ public class IngresoAula implements Initializable {
                              JOptionPane.showMessageDialog(null,"Haga un refrech luego seleccione aula" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
                               stage =(Stage) this.btnModificar.getScene().getWindow();
                               stage.close();
-                         } 
+                         }
+                    } 
         }else{
              JOptionPane.showMessageDialog(null,"Debe seleccionar aula" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
              
-           }
-    }   
+           }*/
+     
          
     @FXML
     private void actionEvent(ActionEvent e) {

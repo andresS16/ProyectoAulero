@@ -57,26 +57,19 @@ public class Aula {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Aula other = (Aula) obj;
-        if (this.numAula != other.numAula) {
-            return false;
-        }
-        if (this.capacidad != other.capacidad) {
-            return false;
-        }
-        return Objects.equals(this.edificio, other.edificio);
-    }     
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) {
+        return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+        return false;
+    }
+    Aula other = (Aula) obj;
+    return this.numAula == other.numAula && Objects.equals(this.edificio, other.edificio);
+}
+
+        
 
     @Override
     public String toString() {
