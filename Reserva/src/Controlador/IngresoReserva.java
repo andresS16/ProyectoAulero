@@ -77,11 +77,6 @@ public class IngresoReserva implements Initializable {
       listaDia=seleDia();
             comboDia.getItems().addAll(listaDia);
       
-      
-      
-     // listaAula=seleNumeroAula();
-      
-  // listaAula= seleCapacidadAula();
        
     }    
     
@@ -217,17 +212,11 @@ public class IngresoReserva implements Initializable {
     private void guardarReserva(ActionEvent event) {
         
         JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
-        
-          //if(comboNombreEdificio.getSelectionModel().getSelectedItem() !=null && comboNumeroAula.getSelectionModel().getSelectedItem()!=null && 
-               /*   this.txtCapacidadAula.getText().isEmpty() &&
-                 comboHora.getSelectionModel().getSelectedItem() !=null && comboDia.getSelectionModel().getSelectedItem() !=null && dateFecha.getValue()!=null  ){*/
-         
-              
+          
               String nombreEdificio= this.comboNombreEdificio.getValue();
               //nombreEdificio.trim();
               //int numAula = comboNumeroAula.getValue();
              int capAula = Integer.parseInt(this.txtCapacidadAula.getText());
-             
               
            Horario hora = (Horario) comboHora.getValue();
               int horaEntera = Integer.parseInt(hora.getHora());
@@ -243,17 +232,8 @@ public class IngresoReserva implements Initializable {
                System.out.println("id_fecha : "+id_fecha);  
                
               Reserva reserva= new Reserva(id_aula,id_horario_dia,id_fecha); 
-              
-             /* LocalDate fechaSeleccionada = dateFecha.getValue();
-              DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-               String fechaFormateada = fechaSeleccionada.format(formatter);*/
-      
+       
               insertarReserva(reserva);
-                 
-         
-        // }else{
-             JOptionPane.showMessageDialog(null,"Falta seleccionar" ,"aviso", JOptionPane.INFORMATION_MESSAGE);  
-        // }    
        
     }
     

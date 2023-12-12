@@ -78,22 +78,9 @@ public class TablaHorario implements Initializable {
        configurarVentana();
        rellenarTablaHorario();
         //agregarHora(); SE CARGA LA HORA UNA VEZ
-        Horario horario= new Horario();
-        horario.setHora("10");
-       /* horario.setLunes("vlos");
-        horario.setMartes("vatta");*/
-        horario.setMiercoles("reservado");
-        //this.listaHorario.add(horario);
-        //this.tblHorario.setItems(listaHorario);
-        
-         TablaHorario tabla= new TablaHorario();
-        ObservableList<Horario> resultado=tabla.buscarHoraDia();  
-        
+      
          //listaHorario.setAll(resultado);
        
-
-       
-        
         /*try {                
             asociarHorario_Dia();
         } catch (SQLException ex) {
@@ -147,9 +134,14 @@ public class TablaHorario implements Initializable {
         
     }
     
-    public ObservableList<Horario> buscarTodos(){
+   /* public ObservableList<Horario> buscarTodos(){
                      
-        String query = "SELECT * FROM horario";
+        String query = "SELECT h.hora, dia.dia, r.id_reserva\n" +
+                   "FROM horario h\n" +
+                         "JOIN horario_dia hd ON h.id_horario = hd.id_horario\n" +
+                                "JOIN reserva r ON hd.id_horario_dia = r.id_horario_dia\n" +
+                                      "JOIN dia ON hd.id_dia = dia.id_dia\n" +
+                                                 "LIMIT 0, 25;";
         TransaccionesBD trscns = new TransaccionesBD(); 
         ResultSet rs = trscns.realizarConsulta(query);
         Horario a =null;                 
@@ -157,62 +149,120 @@ public class TablaHorario implements Initializable {
        
             try{
                  while(rs.next()){  
-
-                     a=new Horario();
-                     Horario a1 = new Horario();
-                     a.setHora(rs.getString("hora"));
-                    
-                    // a.setCapacidad(rs.getInt("capacidad")); 
-                     String suma= a.getHora();
-                    int valor= Integer.parseInt(suma)+1;
-                    a1.setHora(a.getHora()+":00"+" a "+ valor+":00");
-
-                     listaMetodoBuscar.add(a1);                                      
-                     }  
-                     rs.close();
-                 }catch(SQLException ex){
-                     JOptionPane.showMessageDialog(null,"error al buscar horario" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-                 }
-       return listaMetodoBuscar;
-       }
-        public ObservableList<Horario> buscarHoraDia(){
+                                      
                      
-        String query = "SELECT \n"+ "    CASE \n" +
-                                    "        WHEN horario.hora = '15:00' THEN 'reserva'\n" +
-                                    "        ELSE horario.hora\n" +
-                                    "    END AS hora_reserva,\n" +
-                                    "    dia.dia\n" +
-                                    "FROM horario\n" +
-                                    "JOIN dia ON horario.hora = dia.dia\n" +
-                                    "WHERE horario.hora >= '08:00' AND horario.hora <= '21:00' AND dia.dia = 'miércoles'";
-        TransaccionesBD trscns = new TransaccionesBD(); 
-        ResultSet rs = trscns.realizarConsulta(query);
-        Horario a =null;                 
-        ObservableList<Horario>listaMetodoBuscar= FXCollections.observableArrayList();
-       
-            try{
-                 while(rs.next()){  
+              Horario horario = new Horario();
+              horario.setHora(rs.getString("hora"));
+              horario.setLunes(rs.getString("lunes"));
+              horario.setMartes(rs.getString("martes"));
+             horario.setViernes(rs.getString("viernes"));
+            
+          //  horarioReserva.setI(rs.getInt("id_reserva"));
 
-                     a=new Horario();
+                    /* a=new Horario();
                      Horario a1 = new Horario();
                      a.setHora(rs.getString("hora"));
-                     a.setLunes(rs.getString("dia"));
                     
                     // a.setCapacidad(rs.getInt("capacidad")); 
                      String suma= a.getHora();
                     int valor= Integer.parseInt(suma)+1;
-                    a1.setHora(a.getHora()+":00"+" a "+ valor+":00");
+                    a1.setHora(a.getHora()+":00"+" a "+ valor+":00");*/
 
-                     listaMetodoBuscar.add(a1);                                      
+                    /* listaMetodoBuscar.add(horario);                                    
                      }  
                      rs.close();
                  }catch(SQLException ex){
                      JOptionPane.showMessageDialog(null,"error al buscar horario" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
                  }
-       return listaMetodoBuscar;
-       }
-        
-        
+       return listaMetodoBuscar;*/
+      // }*/
+    
+   /* public ObservableList<Horario> buscarTodos() { metodo repetido
+    String query = "SELECT h.hora, d.dia, r.id_reserva " +
+                   "FROM horario h " +
+                   "JOIN horario_dia hd ON h.id_horario = hd.id_horario " +
+                   "JOIN reserva r ON hd.id_horario_dia = r.id_horario_dia " +
+                   "JOIN dia d ON hd.id_dia = d.id_dia " +
+                   "LIMIT 0, 25;";
+
+    TransaccionesBD trscns = new TransaccionesBD();
+    ResultSet rs = trscns.realizarConsulta(query);
+    ObservableList<Horario> listaMetodoBuscar = FXCollections.observableArrayList();
+
+    try {
+        while (rs.next()) {
+            Horario horario = new Horario();
+            horario.setHora(rs.getString("hora"));
+            horario.setDia(rs.getString("dia")); // Asumiendo que "dia" es el nombre de la columna en la tabla dia
+            horario.setIdReserva(rs.getInt("id_reserva"));
+
+            listaMetodoBuscar.add(horario);
+        }
+        rs.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al buscar horario: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+
+    return listaMetodoBuscar;
+}*/
+
+    
+    
+    
+    
+    
+    
+public ObservableList<Horario> buscarTodos() {
+    String query = "SELECT h.hora, d.dia, r.id_reserva " +
+                   "FROM horario h " +
+                   "JOIN horario_dia hd ON h.id_horario = hd.id_horario " +
+                   "JOIN reserva r ON hd.id_horario_dia = r.id_horario_dia " +
+                   "JOIN dia d ON hd.id_dia = d.id_dia " +
+                   "LIMIT 0, 25;";
+
+    TransaccionesBD trscns = new TransaccionesBD();
+    ResultSet rs = trscns.realizarConsulta(query);
+    ObservableList<Horario> listaMetodoBuscar = FXCollections.observableArrayList();
+
+    try {
+        // Creamos una lista de objetos Horario con sus respectivas horas de 8 a 21hs
+        for (int i = 8; i <= 21; i++) {
+            Horario horario = new Horario();
+            horario.setHora(i + "");
+            listaMetodoBuscar.add(horario);
+        }
+
+        while (rs.next()) {
+            int horaBD = Integer.parseInt(rs.getString("hora"));
+            String dia = rs.getString("dia");
+            String idReserva = rs.getString("id_reserva");
+
+            // Buscamos el objeto Horario correspondiente a la hora de la reserva
+            Horario horarioReserva = listaMetodoBuscar.get(horaBD - 8);
+
+            // Asignamos la reserva al día correspondiente en el objeto Horario
+            if (dia.equals("lunes")) {
+                horarioReserva.setLunes("resrva "+idReserva);
+            } else if (dia.equals("martes")) {
+                horarioReserva.setMartes("resrva "+idReserva);
+            } else if (dia.equals("miercoles")) {
+                horarioReserva.setMiercoles("resrva "+idReserva);
+            } else if (dia.equals("jueves")) {
+                horarioReserva.setJueves("resrva "+idReserva);
+            } else if (dia.equals("viernes")) {
+                horarioReserva.setViernes("resrva "+idReserva);
+            }
+        }
+        rs.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al buscar horario: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+
+    return listaMetodoBuscar;
+}
+
+
+
         
     
     
