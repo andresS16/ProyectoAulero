@@ -4,17 +4,11 @@
  */
 package Controlador;
 
-import Modelo.Aula;
-import Modelo.Edificio;
 import Modelo.Horario;
-import Modelo.Reserva;
-
-import java.awt.HeadlessException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -26,8 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,7 +27,7 @@ import javax.swing.JOptionPane;
  *
  * @author Usuario
  */
-public class IngresoReserva implements Initializable {
+public class IngresoReserva_Externa implements Initializable {
 
     @FXML
     private Button btnGuardar;
@@ -59,16 +51,10 @@ public class IngresoReserva implements Initializable {
     TablaAsignar tablaAsignar = new TablaAsignar(); 
     ObservableList<String> listaEdificio = FXCollections.observableArrayList();     
     ObservableList<Integer> listaAula = FXCollections.observableArrayList();
-    ObservableList<String> listaCarrera = FXCollections.observableArrayList();
-    ObservableList<String> listaMateria = FXCollections.observableArrayList();
     
     
     ArrayList<Horario> listaHora = new ArrayList<>();
     ArrayList<String> listaDia = new ArrayList<>();
-    @FXML
-    private ComboBox<String> comboCarrera;
-    @FXML
-    private ComboBox<String> comboMateria;
     
     
     @Override
@@ -81,21 +67,8 @@ public class IngresoReserva implements Initializable {
       listaHora=seleHora();
             comboHora.getItems().addAll(listaHora); 
       listaDia=seleDia();
-            comboDia.getItems().addAll(listaDia); 
-       listaCarrera=seleCarrera();         
-            comboCarrera.setItems(listaCarrera);
-            // Dentro del método initialize o donde configuras tus componentes
-                comboCarrera.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        //ObservableList<String> materiaSeleccionada = seleMateria(newValue); // Llama a tu método seleMateria con el nuevo valor seleccionado
-                       listaMateria=seleMateria(newValue); 
-                        
-                        //comboMateria.setItems(materiaSeleccionada); // Configura el nuevo conjunto de materias en el ComboBox comboMateria
-                            
-                         comboMateria.setItems(listaMateria);
-                    }
-                });
-
+            comboDia.getItems().addAll(listaDia);
+      
        
     }    
     
@@ -115,8 +88,7 @@ public class IngresoReserva implements Initializable {
     }
     
         public ObservableList<String>seleEdificio(){
-            
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificios", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
+               
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM edificio ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -128,7 +100,7 @@ public class IngresoReserva implements Initializable {
                     String e="";                   
                     e =rs.getString("nombre");                  
                     lista.add(e);
-                    System.out.println("lo que trajo la consulta BD edificios :" +e);            
+                    System.out.println("lo que trajo la consulta :" +e);            
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleEdificio" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -161,10 +133,10 @@ public class IngresoReserva implements Initializable {
     }
     
       public ObservableList<Integer>seleCapacidadAula(){
+                JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula", "ERROR", JOptionPane.INFORMATION_MESSAGE);
                 
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula muestra numero de aula ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
-        
-        ObservableList<Integer>lista  = FXCollections.observableArrayList();        
+                
+        ObservableList<Integer>lista  = FXCollections.observableArrayList();;        
         String query = "select capacidad FROM aula ";       
         TransaccionesBD trscns = new TransaccionesBD();
         ResultSet rs = trscns.realizarConsulta(query);
@@ -174,7 +146,7 @@ public class IngresoReserva implements Initializable {
                    
                     int a=rs.getInt("numeroAula");                                     
                     lista.add(a);
-                    System.out.println("segun capacidad numeroAula :"+ a);                  
+                    System.out.println("lo que trajo la consulta de numeroAula :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleCapacidadAula" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -227,59 +199,11 @@ public class IngresoReserva implements Initializable {
         //System.out.println("la carrera es ");
        return lista;             
     }
-    
-     public ObservableList<String>seleCarrera(){
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleCarrera", "ERROR", JOptionPane.ERROR_MESSAGE);
-        ObservableList<String>lista  = FXCollections.observableArrayList();;        
-        String query = "select nombre FROM carrera ";       
-        TransaccionesBD trscns = new TransaccionesBD();
-        ResultSet rs = trscns.realizarConsulta(query);
-            
-            try{
-                while(rs.next()){ 
-                    
-                    String e="";                   
-                    e =rs.getString("nombre");                  
-                    lista.add(e);
-                    System.out.println("lo que trajo la consulta BD ..carrera:" +e);            
-                }           
-            }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null,"error en metodo de seleCarrera" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-            }                                  
-     
-       return lista;             
-    }
-     
-      public ObservableList<String>seleMateria(String materia){
-          
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria ... ", "ERROR", JOptionPane.ERROR_MESSAGE);
-       
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria ...ver valor del comboMateria es "+materia, "ERROR", JOptionPane.ERROR_MESSAGE);
-        ObservableList<String>lista  = FXCollections.observableArrayList();;        
-        String query = "select nombre FROM materia where carrera ='"+materia+"'";       
-        TransaccionesBD trscns = new TransaccionesBD();
-        ResultSet rs = trscns.realizarConsulta(query);
-            
-            try{
-                while(rs.next()){ 
-                    
-                    String e="";                   
-                    e =rs.getString("nombre");                  
-                    lista.add(e);
-                    System.out.println("materias de la carrera BD materia:" +e);            
-                }           
-            }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null,"error en metodo de seleMateria " + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-            }                                  
-     
-       return lista;             
-    }
-     
    
     @FXML
     private void guardarReserva(ActionEvent event) {
         
-        JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva ..vericar los id para reserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
           
               String nombreEdificio= this.comboNombreEdificio.getValue();
               //nombreEdificio.trim();
@@ -299,10 +223,10 @@ public class IngresoReserva implements Initializable {
                System.out.println("id_horario_dia :"+id_horario_dia);  
                System.out.println("id_fecha : "+id_fecha);  
                
-              Reserva reserva= new Reserva(id_aula,id_horario_dia,id_fecha); 
+              Modelo.Reserva reserva= new Modelo.Reserva(id_aula,id_horario_dia,id_fecha); 
        
               insertarReserva(reserva);
-       insertarCarreraMateria(id_aula);
+       
     }
     
     public boolean insertarFecha(LocalDate fecha){
@@ -343,7 +267,7 @@ public class IngresoReserva implements Initializable {
    
    
     public int numAula(String edificio, int capacidad){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo numAula para buscar capacidad de aula ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Ingresa metodo numAula en funcion de capacidad ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         int a = 0;                   
         String query = "SELECT id_aula\n" +
                               "FROM aula\n" +
@@ -358,7 +282,7 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_aula");                                     
                     //lista.add(a);
-                    System.out.println("aula encontrada con id :"+ a);                  
+                    System.out.println("Metodo numAula---> id_aula :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.INFORMATION_MESSAGE);
@@ -395,7 +319,7 @@ public class IngresoReserva implements Initializable {
     }
     
      
-   public boolean insertarReserva(Reserva r){
+   public boolean insertarReserva(Modelo.Reserva r){
         
         boolean exito = false;
         try{                                     
@@ -408,13 +332,11 @@ public class IngresoReserva implements Initializable {
                 System.out.println("Metodo insertar reserva");  
        }catch(Exception ex){
                JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);             
-              }   
-        
-       
+              }                
   return exito;
     }
-   
-    public int seleAulaCapacidad(int id){
+    
+     public int seleAulaCapacidad(int id){
      
         int a = 0;                  
         String query = "select numeroAula FROM aula where id_aula ='"+id+"' ";       
@@ -431,66 +353,14 @@ public class IngresoReserva implements Initializable {
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-       JOptionPane.showMessageDialog(null,"busca el aula selecciona da por su capacidda id :" +a  , "ERROR", JOptionPane.INFORMATION_MESSAGE);
+       JOptionPane.showMessageDialog(null,"entra en metodo seleAulaCapacidad para obtener numero de aula segun cntidad ingresada " +a  , "ERROR", JOptionPane.INFORMATION_MESSAGE);
        
         this.comboNumeroAula.getItems().add(a);               
         this.comboNumeroAula.setValue(a);
-                           
+             
+               
+               
        return a;          
-    }
-     
-      public void insertarCarreraMateria(int id ){
-             
-             JOptionPane.showMessageDialog(null,"Ingresa metodo insertar carreraMateria", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
-             
-        ObservableList<Integer>lista  = FXCollections.observableArrayList(); 
-        lista=buscarIdCarreraMateria();
-        int id_materia =0;
-        id_materia=lista.get(1);
-        int id_Carrera =0;
-        id_Carrera=lista.get(0);
-        boolean exito=false;
-        
-         try{
-              String sqlFecha = "INSERT INTO carrera_materia (id_carrera, id_materia, id_aula)\n" +
-                                    "VALUES ('"+id_Carrera+"', '"+id_materia+"', '"+id+"')";                           
-              TransaccionesBD trscns = new TransaccionesBD();
-              exito = trscns.ejecutarQuery(sqlFecha ); 
-                 System.out.println("metodo insertaFecha :");  
-              }catch(Exception ex){
-                  JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-              
-              }                     
-    }
-         
-    public ObservableList<Integer>buscarIdCarreraMateria(){
-                
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula. busca id_carrera id_materia ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
-        
-        ObservableList<Integer>lista  = FXCollections.observableArrayList();        
-        String query = "SELECT id_materia, id_carrera FROM materia\n" +
-                                "JOIN carrera ON materia.nombre = '"+this.comboMateria.getValue()+"' AND carrera.nombre = '"+this.comboCarrera.getValue()+"'";   
-
-        
-        TransaccionesBD trscns = new TransaccionesBD();
-        ResultSet rs = trscns.realizarConsulta(query);
-            int a=0;
-            int b=0;
-            try{
-                while(rs.next()){
-                   
-                    a=rs.getInt("id_carrera"); 
-                    b=rs.getInt("id_materia"); 
-                    lista.add(a);
-                    lista.add(b);
-                    System.out.println(" el id de  carrera es  :"+ a);    
-                    System.out.println(" el id de  materia es  :"+ b); 
-                }           
-            }catch(SQLException ex){
-                JOptionPane.showMessageDialog(null,"error en metodo de seleCapacidadAula" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-            }                                  
-      JOptionPane.showMessageDialog(null,"Los id de carrera y materia : " +a +" "+b +"" , "ERROR", JOptionPane.INFORMATION_MESSAGE);
-       return lista;            
     }
 
     @FXML
@@ -500,6 +370,3 @@ public class IngresoReserva implements Initializable {
     
     
 }
-
-
-

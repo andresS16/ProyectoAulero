@@ -1,8 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package Controlador;
+
 
 import Modelo.Aula;
 import Modelo.Carrera;
@@ -36,11 +37,12 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
+ * FXML Controller class
  *
  * @author Usuario
  */
-public class TablaHorario implements Initializable {
-    
+public class TablaHorario_ReservaExterna implements Initializable {
+
     private final ObservableList<Horario> listaHorario = FXCollections.observableArrayList();
     private final ObservableList<String> listaDia = FXCollections.observableArrayList("lunes","martes","miercoles","jueves","viernes");
     
@@ -181,8 +183,6 @@ public ObservableList<Horario> buscarTodos() {
 
     return listaMetodoBuscar;
 }
-
-
     
     public boolean insertarHorario(String a){        
         String query = "INSERT INTO horario(hora)" + "VALUES(' " + a + "' )";
@@ -281,7 +281,7 @@ public ObservableList<Horario> buscarTodos() {
             Parent root = loader.load();//carga el parent            
             IngresoHorario controlador = loader.getController();//carga el controlador de esa vista                     
             //controlador.initAttributes(personas);
-            controlador.setControladorEscena1(this);
+    // controlador.setControladorEscena1(this);
             //controlador.traerHorario(c); metod para cargar tabla desde base de datos 5/12/23 
             //controlador.seleCarrera();
             Scene scene = new Scene(root);

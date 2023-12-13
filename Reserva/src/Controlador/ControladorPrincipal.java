@@ -112,7 +112,7 @@ public class ControladorPrincipal implements Initializable {
               try{
                   
                 FXMLLoader loader= new FXMLLoader();
-                loader.setLocation(ControladorPrincipal.class.getResource("/Vista/TablaHorario.fxml"));//FormularioLU.fxml
+                loader.setLocation(ControladorPrincipal.class.getResource("/Vista/TablaHorario_ReservaExterna.fxml"));//FormularioLU.fxml
 
                 AnchorPane ventana = (AnchorPane) loader.load();
                 panel.setCenter(ventana);
