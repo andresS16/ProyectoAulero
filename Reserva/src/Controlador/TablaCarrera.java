@@ -84,15 +84,15 @@ public class TablaCarrera implements Initializable {
     */
  
      public void configurarVentana(){
-        
-        //colNumMateria.setCellValueFactory(new PropertyValueFactory<>("numMateria"));//cada col. se asigna setvalufactory
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+         colAño.setCellValueFactory(new PropertyValueFactory<>("año"));
+         tblCarrera.setItems(carreraLista);   
+           
+        //colNumMateria.setCellValueFactory(new PropertyValueFactory<>("numMateria"));//cada col. se asigna setvalufactory      
         //colNombre.setCellValueFactory(new PropertyValueFactory<>("carrera"));
-        //colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));
-        colAño.setCellValueFactory(new PropertyValueFactory<>("año"));
+        //colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));     
        // colCuatrimestre.setCellValueFactory(new PropertyValueFactory<>("cuatrimestre"));        
-        //colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        tblCarrera.setItems(carreraLista);   
+        //colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));    
     }    
       public void rellenarTablaCarrera(){
         carreraLista.clear();
@@ -218,7 +218,7 @@ public class TablaCarrera implements Initializable {
                     carrera.setNombre(rs.getString("nombre"));
                    // materia.setNombre(rs.getString("materia"));
                     //carrera.setMateria(materia);
-                    carrera.setAño(rs.getInt("año"));                                                                                                                                                                                                                                                                                                               ;                             
+              carrera.setAño(rs.getInt("año"));                                                                                                                                                                                                                                                                                                               ;                             
                     carreras.add(carrera);                                  
                 }  
                 rs.close();

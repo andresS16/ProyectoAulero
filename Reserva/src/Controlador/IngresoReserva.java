@@ -73,35 +73,34 @@ public class IngresoReserva implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        JOptionPane.showMessageDialog(null,"Entra en ingreso Reserva " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
         listaAula =seleNumeroAula();
             //comboNumeroAula.setItems(listaAula);        
-      listaEdificio=seleEdificio();         
+         listaEdificio=seleEdificio();         
             comboNombreEdificio.setItems(listaEdificio);
-      listaHora=seleHora();
+          listaHora=seleHora();
             comboHora.getItems().addAll(listaHora); 
-      listaDia=seleDia();
+         listaDia=seleDia();
             comboDia.getItems().addAll(listaDia); 
-       listaCarrera=seleCarrera();         
+         listaCarrera=seleCarrera();         
             comboCarrera.setItems(listaCarrera);
             // Dentro del método initialize o donde configuras tus componentes
-                comboCarrera.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        //ObservableList<String> materiaSeleccionada = seleMateria(newValue); // Llama a tu método seleMateria con el nuevo valor seleccionado
-                       listaMateria=seleMateria(newValue); 
-                        
-                        //comboMateria.setItems(materiaSeleccionada); // Configura el nuevo conjunto de materias en el ComboBox comboMateria
-                            
-                         comboMateria.setItems(listaMateria);
+          comboCarrera.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+          //ObservableList<String> materiaSeleccionada = seleMateria(newValue); // Llama a tu método seleMateria con el nuevo valor seleccionado
+           listaMateria=seleMateria(newValue);                        
+                        //comboMateria.setItems(materiaSeleccionada); // Configura el nuevo conjunto de materias en el ComboBox comboMateria                           
+                        comboMateria.setItems(listaMateria);
                     }
-                });
-
-       
-    }    
+           });     
+    }   
+    /*SetConrolDOReSCEB() , seleEdiificio() , selenumeroAula , seleCapacidadAula, seleHora, seleDia, , 
+    seleCarrera(), seleMateria(), guardarReserva(), insertarFecha(), seleIdFecha(), numAula(), horarioID(), insertarReserva()*/
     
      public void setControladorEscena1(TablaAsignar controladorEscena1) {
         this.tablaAsignar= controladorEscena1;
     }
+     
     public void llamarMetodoDeOtraEscena() {
         if (tablaAsignar!= null) {
             JOptionPane.showMessageDialog(null,"Entra al metodo llamar metodoDeOtraScena","aviso" , JOptionPane.INFORMATION_MESSAGE);   
@@ -138,7 +137,7 @@ public class IngresoReserva implements Initializable {
     } 
         
     public ObservableList<Integer>seleNumeroAula(){
-               
+              JOptionPane.showMessageDialog(null,"Ingresa metodo seleNumeroAula - trae numeros de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE); 
         ObservableList<Integer>lista  = FXCollections.observableArrayList();  
         String query = "select numeroAula FROM aula ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -150,19 +149,18 @@ public class IngresoReserva implements Initializable {
                     int a=rs.getInt("numeroAula");
                                      
                     lista.add(a);
-                    System.out.println("lo que trajo la consulta de numeroAula :"+ a);                    
+                    System.out.println("Trae numeros de aulas :"+ a);                    
                 }           
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleEdificio" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-             
-            
+                        
        return lista;             
     }
     
       public ObservableList<Integer>seleCapacidadAula(){
                 
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula muestra numero de aula ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
+        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula trae capaciddad de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
         
         ObservableList<Integer>lista  = FXCollections.observableArrayList();        
         String query = "select capacidad FROM aula ";       
@@ -184,7 +182,7 @@ public class IngresoReserva implements Initializable {
     }
       
        public ArrayList<Horario> seleHora(){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleHora", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Ingresa metodo seleHora : ordena las horas de 8 a 21 hs ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ArrayList<Horario> lista  = new ArrayList<>();        
         String query = "select hora FROM horario where 1 ORDER BY hora ASC;";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -206,7 +204,7 @@ public class IngresoReserva implements Initializable {
     }
        
     public ArrayList<String> seleDia(){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleDia", "ERROR", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Ingresa metodo seleDia: trae los dias de la semana", "ERROR", JOptionPane.ERROR_MESSAGE);
         
         ArrayList<String> lista  = new ArrayList<>();                
         String query = "SELECT 'Lunes' AS dia UNION SELECT 'Martes' UNION SELECT 'Miércoles' UNION SELECT 'Jueves' UNION SELECT 'Viernes';";
@@ -229,7 +227,7 @@ public class IngresoReserva implements Initializable {
     }
     
      public ObservableList<String>seleCarrera(){
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleCarrera", "ERROR", JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(null,"Ingresa metodo seleCarrera : trae las carreras ", "ERROR", JOptionPane.ERROR_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM carrera ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -241,7 +239,7 @@ public class IngresoReserva implements Initializable {
                     String e="";                   
                     e =rs.getString("nombre");                  
                     lista.add(e);
-                    System.out.println("lo que trajo la consulta BD ..carrera:" +e);            
+                    System.out.println("Nombres de las carreras segun BD es :" +e);            
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleCarrera" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -252,9 +250,9 @@ public class IngresoReserva implements Initializable {
      
       public ObservableList<String>seleMateria(String materia){
           
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria ... ", "ERROR", JOptionPane.ERROR_MESSAGE);
+               
        
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria ...ver valor del comboMateria es "+materia, "ERROR", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria : trae materias de las carreras... valor del comboMateria es "+materia, "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM materia where carrera ='"+materia+"'";       
         TransaccionesBD trscns = new TransaccionesBD();

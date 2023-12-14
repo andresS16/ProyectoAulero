@@ -22,11 +22,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
-/**
- * FXML Controller class
- *
- * @author Usuario
- */
+
 public class IngresoReserva_Externa implements Initializable {
 
     @FXML
@@ -55,14 +51,16 @@ public class IngresoReserva_Externa implements Initializable {
     
     ArrayList<Horario> listaHora = new ArrayList<>();
     ArrayList<String> listaDia = new ArrayList<>();
+    @FXML
+    private TextField txtDescripcion;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        JOptionPane.showMessageDialog(null,"Inicializar","aviso" , JOptionPane.INFORMATION_MESSAGE);   
         listaAula =seleNumeroAula();
             //comboNumeroAula.setItems(listaAula);        
-      listaEdificio=seleEdificio();         
+      listaEdificio= seleEdificio();         
             comboNombreEdificio.setItems(listaEdificio);
       listaHora=seleHora();
             comboHora.getItems().addAll(listaHora); 
@@ -88,7 +86,7 @@ public class IngresoReserva_Externa implements Initializable {
     }
     
         public ObservableList<String>seleEdificio(){
-               
+               JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificio", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM edificio ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -100,7 +98,7 @@ public class IngresoReserva_Externa implements Initializable {
                     String e="";                   
                     e =rs.getString("nombre");                  
                     lista.add(e);
-                    System.out.println("lo que trajo la consulta :" +e);            
+                    System.out.println("metod seleEdificio Edificio :" +e);            
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleEdificio" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -203,30 +201,73 @@ public class IngresoReserva_Externa implements Initializable {
     @FXML
     private void guardarReserva(ActionEvent event) {
         
-        JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
+       JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
           
-              String nombreEdificio= this.comboNombreEdificio.getValue();
+          
+       
+             
+              //if (this.txtNumeroAula.getText().isEmpty() || this.txtCapacidad.getText().isEmpty() || comboEdificio.getSelectionModel().getSelectedItem() == null)
+              if (this.comboNombreEdificio.getSelectionModel().getSelectedItem() == null || this.txtCapacidadAula.getText().isEmpty() 
+                      || this.comboHora.getSelectionModel().getSelectedItem() == null ||
+                      this.comboDia.getSelectionModel().getSelectedItem() == null || this.dateFecha.getValue() == null) {
+            // Al menos uno de los campos está vacío o no seleccionado
+            JOptionPane.showMessageDialog(null,"Campos vacios verifique los datos " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+
+            if (this.comboNombreEdificio.getSelectionModel().getSelectedItem() == null ) {
+                // txtNumeroAula está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falta seleccionar edificio " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (this.txtCapacidadAula.getText().isEmpty() ) {
+                // txtCapacidad está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falata ingresar capacidad de aula solicitada ","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (this.comboHora.getSelectionModel().getSelectedItem() == null) {
+                // comboEdificio no tiene una selección
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falta ingresar hora de la reserva  " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+            }if (this.comboDia.getSelectionModel().getSelectedItem() == null  ) {
+                // txtCapacidad está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null," Falta ingresar dia de la reserva ","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }if (this.dateFecha.getValue() == null) {
+                // txtCapacidad está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falta ingresar fecha de reserva ","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }if (this.txtDescripcion.getText().isEmpty() ) {
+                // txtCapacidad está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falta ingresar descrpcion","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+              else {
+            // Todos los campos están completos y seleccionados
+            // Realiza aquí la lógica para procesar los datos ingresados
+            JOptionPane.showMessageDialog(null,"Campos con datos puede ingresar reserva" ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+                String nombreEdificio= this.comboNombreEdificio.getValue();
               //nombreEdificio.trim();
               //int numAula = comboNumeroAula.getValue();
-             int capAula = Integer.parseInt(this.txtCapacidadAula.getText());
+              int capAula = Integer.parseInt(this.txtCapacidadAula.getText());
               
-           Horario hora = (Horario) comboHora.getValue();
-              int horaEntera = Integer.parseInt(hora.getHora());
-              String dia = (String) this.comboDia.getValue();
-              LocalDate fecha = dateFecha.getValue();
-              insertarFecha(fecha);
-              int id_fecha=seleIDFecha(fecha);
+               Horario hora = (Horario) this.comboHora.getValue();
+               int horaEntera = Integer.parseInt(hora.getHora());
+               String dia = (String) this.comboDia.getValue();
+               LocalDate fecha = this.dateFecha.getValue();
+               insertarFecha(fecha);
+               int id_fecha=seleIDFecha(fecha);
                int id_aula=numAula(nombreEdificio,capAula );
                int id_horario_dia=HorarioID(dia,horaEntera);
                
                System.out.println("id_aula :"+id_aula);  
                System.out.println("id_horario_dia :"+id_horario_dia);  
-               System.out.println("id_fecha : "+id_fecha);  
-               
-              Modelo.Reserva reserva= new Modelo.Reserva(id_aula,id_horario_dia,id_fecha); 
-       
-              insertarReserva(reserva);
-       
+               System.out.println("id_fecha : "+id_fecha);       
+               Modelo.Reserva reserva= new Modelo.Reserva(id_aula,id_horario_dia,id_fecha); 
+                  insertarReserva(reserva);
+        }
+     
     }
     
     public boolean insertarFecha(LocalDate fecha){
@@ -325,7 +366,7 @@ public class IngresoReserva_Externa implements Initializable {
         try{                                     
                // String query = "INSERT INTO reserva (id_aula, id_horario_dia, id_fecha)\n" + "VALUES ("+r.getId_aula()+", "+r.getId_horario_dia()+", "+r.getId_fecha()+")";
                 
-             String query ="INSERT INTO `reserva` (`id_horario_dia`, `id_fecha`, `id_aula`) VALUES ('"+r.getId_aula()+"', '"+r.getId_horario_dia()+"', '"+r.getId_fecha()+"')";
+             String query ="INSERT INTO `reserva` (`id_horario_dia`, `id_fecha`, `id_aula`, `descripcion`) VALUES ('"+r.getId_aula()+"', '"+r.getId_horario_dia()+"', '"+r.getId_fecha()+"','"+this.txtDescripcion.getText()+"')";
 
                 TransaccionesBD trscns = new TransaccionesBD();
                 exito = trscns.ejecutarQuery(query); 

@@ -67,8 +67,10 @@ public class TablaAsignar implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        JOptionPane.showMessageDialog(null,"Ingresa Tabla Asignar " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
         configurarVentana();
         rellenarTablaHorario();
+     
     }    
     
     public void agregarHora(){// metodo solo se usa para cargar una sola vez las horas en BD, Sino se cargarian vrias veces el mismo dato con distinto id
@@ -124,7 +126,7 @@ public class TablaAsignar implements Initializable {
     
     public void rellenarTablaHorario(){ //consulta en BD trae y setea elementos en la tabla     
         //aulas.clear();                   
-        TablaHorario tabla= new TablaHorario();
+        TablaHorario_ReservaExterna  tabla= new TablaHorario_ReservaExterna ();
         ObservableList<Horario> resultado=tabla.buscarTodos();  
          listaHorario.setAll(resultado);
        // tblAula.setItems(resultado);

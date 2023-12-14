@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 
 
 public class IngresoHorario implements Initializable {
-    TablaHorario tablaHorario = new TablaHorario();
+    TablaHorario_ReservaExterna  tablaHorario = new TablaHorario_ReservaExterna ();
     @FXML
     private Button btnGuardar;
     @FXML
@@ -57,7 +57,7 @@ public class IngresoHorario implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+           JOptionPane.showMessageDialog(null,"Controlador Ingreso Horario desde Tabla horarioReservaExterna","aviso" , JOptionPane.INFORMATION_MESSAGE);  
         listaEdificio=seleEdificio();
              comboNumeroEdificio.getItems().addAll(listaEdificio);  
         listaAula=seleAula();
@@ -69,7 +69,7 @@ public class IngresoHorario implements Initializable {
     }
     
     
-    public void setControladorEscena1(TablaHorario controladorEscena1) {
+    public void setControladorEscena1(TablaHorario_ReservaExterna  controladorEscena1) {
         this.tablaHorario = controladorEscena1;
     }
     public void llamarMetodoDeOtraEscena() {

@@ -64,6 +64,7 @@ public class TablaAula implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //chcBuscar.getItems().addAll("capacidad","numeroAula");
+        
         configurarVentana();
         rellenarTablaAula();
         //Aula a = this.tblAula.getSelectionModel().getSelectedItem(); 24/11 anule porque no vi que se usaba.

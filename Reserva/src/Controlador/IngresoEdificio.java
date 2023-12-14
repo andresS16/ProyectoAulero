@@ -110,28 +110,7 @@ public class IngresoEdificio implements Initializable {
        // System.out.println("la carrera es " + carrera.getNombre_carrera());
        return lista;             
     }
-       
-       
-  /*  public void traerEdificio(Edificio c){
-                           
-        if(c !=null){                                            
-            this.txtNumeroEdificio.setText(c.getNumeroEdificio()+"");
-            this.txtNumeroAula.setText(c.getNumeroAula()+"");
-        }       
-        String query = "select id_edificio from edificio where numeroEdificio='"+ c.getNumeroEdificio()+"'";       
-        TransaccionesBD trscns = new TransaccionesBD();
-        ResultSet rs = trscns.realizarConsulta(query);
-        try{
-            if(rs.next()){                   
-                //JOptionPane.showMessageDialog(null, "entro en el if para asignar", "Error",JOptionPane.WARNING_MESSAGE);                 
-                c.setId(rs.getLong("id_edificio")); 
-                //this.id = c.getId(); 
-                //c.setNombre(rs.getString("nombre"));
-            }           
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null,"error en metodo traer carrera" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-        }   
-    }*/
+
     
     private void eliminarEdificio() { 
          

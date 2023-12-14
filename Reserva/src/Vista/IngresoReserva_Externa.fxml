@@ -15,7 +15,7 @@
       <DatePicker fx:id="dateFecha" layoutX="85.0" layoutY="220.0" prefWidth="180.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
       <ComboBox fx:id="comboNombreEdificio" layoutX="85.0" layoutY="20.0" prefWidth="179.0" promptText="Edificio" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
       <ComboBox fx:id="comboNumeroAula" layoutX="85.0" layoutY="60.0" prefWidth="179.0" promptText="Numero Aula" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
-      <HBox layoutY="280.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="323.0">
+      <HBox layoutY="311.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="323.0">
          <children>
             <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarReserva" prefHeight="25.0" prefWidth="114.0" text="Guardar" />
             <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#actionEvent" prefHeight="25.0" prefWidth="128.0" snapToPixel="false" text="Eliminar" />
@@ -24,5 +24,6 @@
       </HBox>
       <ComboBox fx:id="comboDia" layoutX="85.0" layoutY="180.0" prefWidth="180.0" promptText="Dia" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
       <TextField fx:id="txtCapacidadAula" layoutX="85.0" layoutY="100.0" promptText="capaciddad de aula" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
+      <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="260.0" promptText="Descripcion.." AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
    </children>
 </AnchorPane>

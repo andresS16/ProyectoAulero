@@ -77,7 +77,10 @@ public class TablaHorario_ReservaExterna implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {// alert verde.. ver si hay errores crear tabla siguiendo formato de tabla alumno para aprovechar formato
-       configurarVentana();
+       JOptionPane.showMessageDialog(null,"Ingresa tablaHorarioReservaExterna" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
+        
+        
+        configurarVentana();
        rellenarTablaHorario();
         //agregarHora(); SE CARGA LA HORA UNA VEZ
       
@@ -106,7 +109,7 @@ public class TablaHorario_ReservaExterna implements Initializable {
          for(String dia: listaDia){
              insertarDia(dia);         
          }
-     }
+    }
       
     public void configurarVentana(){ //se enlaza tabla con atributos de la clase Horario
          colHora.setCellValueFactory(new PropertyValueFactory<>("hora"));
@@ -123,7 +126,7 @@ public class TablaHorario_ReservaExterna implements Initializable {
     
     public void rellenarTablaHorario(){ //consulta en BD trae y setea elementos en la tabla     
         //aulas.clear();                   
-       TablaHorario tabla= new TablaHorario();
+       TablaHorario_ReservaExterna tabla= new TablaHorario_ReservaExterna ();
         ObservableList<Horario> resultado=tabla.buscarTodos();  
         
          listaHorario.setAll(resultado);
@@ -277,9 +280,9 @@ public ObservableList<Horario> buscarTodos() {
         }else{  
             
           try {            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/IngresoHorario.fxml"));//carga una gerarqui DE OBJETOS        
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/IngresoReserva_Externa.fxml"));//carga una gerarqui DE OBJETOS        
             Parent root = loader.load();//carga el parent            
-            IngresoHorario controlador = loader.getController();//carga el controlador de esa vista                     
+            IngresoReserva_Externa controlador = loader.getController();//carga el controlador de esa vista                     
             //controlador.initAttributes(personas);
     // controlador.setControladorEscena1(this);
             //controlador.traerHorario(c); metod para cargar tabla desde base de datos 5/12/23 
