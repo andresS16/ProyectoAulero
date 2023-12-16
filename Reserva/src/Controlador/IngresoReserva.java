@@ -11,6 +11,7 @@ import Modelo.Reserva;
 
 import java.awt.HeadlessException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
 
 /**
  * FXML Controller class
@@ -92,7 +94,9 @@ public class IngresoReserva implements Initializable {
                         //comboMateria.setItems(materiaSeleccionada); // Configura el nuevo conjunto de materias en el ComboBox comboMateria                           
                         comboMateria.setItems(listaMateria);
                     }
+      
            });     
+
     }   
     /*SetConrolDOReSCEB() , seleEdiificio() , selenumeroAula , seleCapacidadAula, seleHora, seleDia, , 
     seleCarrera(), seleMateria(), guardarReserva(), insertarFecha(), seleIdFecha(), numAula(), horarioID(), insertarReserva()*/
@@ -113,9 +117,10 @@ public class IngresoReserva implements Initializable {
         }
     }
     
-        public ObservableList<String>seleEdificio(){
+    public ObservableList<String>seleEdificio(){
             
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificios", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
+               JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificios", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
+               
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM edificio ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -250,7 +255,6 @@ public class IngresoReserva implements Initializable {
      
       public ObservableList<String>seleMateria(String materia){
           
-               
        
         JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria : trae materias de las carreras... valor del comboMateria es "+materia, "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
@@ -282,25 +286,30 @@ public class IngresoReserva implements Initializable {
               String nombreEdificio= this.comboNombreEdificio.getValue();
               //nombreEdificio.trim();
               //int numAula = comboNumeroAula.getValue();
-             int capAula = Integer.parseInt(this.txtCapacidadAula.getText());
-              
-           Horario hora = (Horario) comboHora.getValue();
+             int capAula = Integer.parseInt(this.txtCapacidadAula.getText());            
+           Horario hora = (Horario) this.comboHora.getValue();
               int horaEntera = Integer.parseInt(hora.getHora());
               String dia = (String) this.comboDia.getValue();
               LocalDate fecha = dateFecha.getValue();
               insertarFecha(fecha);
               int id_fecha=seleIDFecha(fecha);
+              
+            
+              
                int id_aula=numAula(nombreEdificio,capAula );
-               int id_horario_dia=HorarioID(dia,horaEntera);
+               int id_horario_dia= HorarioID(dia,horaEntera);
                
                System.out.println("id_aula :"+id_aula);  
                System.out.println("id_horario_dia :"+id_horario_dia);  
                System.out.println("id_fecha : "+id_fecha);  
                
-              Reserva reserva= new Reserva(id_aula,id_horario_dia,id_fecha); 
+              Reserva reserva= new Reserva();
+              reserva.setId_aula(id_aula);
+              reserva.setId_horario_dia(id_horario_dia);
+              reserva.setId_fecha(id_fecha);
        
               insertarReserva(reserva);
-       insertarCarreraMateria(id_aula);
+       //insertarCarreraMateria(id_aula);
     }
     
     public boolean insertarFecha(LocalDate fecha){
@@ -383,7 +392,7 @@ public class IngresoReserva implements Initializable {
                    
                     a=rs.getInt("id_horario_dia");                                     
                     //lista.add(a);
-                    System.out.println("Metodo id_Horario_Dia :"+ a);                  
+                    System.out.println(" depurando  id_Horario_Dia :"+ a);                  
                 }           
             }catch(SQLException ex){
                          JOptionPane.showMessageDialog(null,"error en metodo de Horario_ID" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -393,7 +402,7 @@ public class IngresoReserva implements Initializable {
     }
     
      
-   public boolean insertarReserva(Reserva r){
+  /*public boolean insertarReserva(Reserva r){
         
         boolean exito = false;
         try{                                     
@@ -410,7 +419,82 @@ public class IngresoReserva implements Initializable {
         
        
   return exito;
+    }*/
+
+
+
+
+
+    
+  /*  boolean exito = false;
+    JOptionPane.showMessageDialog(null, "Entra en inertar Reserva ", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            String query = "SELECT COUNT(*) AS countReservas\n" +
+                            "FROM reserva r\n" +
+                            "JOIN fecha f ON r.id_fecha = f.id_fecha\n" +
+                            "WHERE  r.id_horario_dia = ?  \n" +
+                            "  AND r.descripcion IS NULL\n" +
+                            "  AND f.fecha = ?  \n" +
+                            "  AND r.id_aula = ? ;";
+
+    
+    TransaccionesBD trscns = new TransaccionesBD();
+LocalDate fecha = this.dateFecha.getValue();
+    try {
+        int count = trscns.contarDuplicadosNumero(query, r.getId_horario_dia(), fecha, r.getId_aula() );
+
+        if (count > 0) {
+            JOptionPane.showMessageDialog(null, "Sí existe registro", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No existe registro SE INSERTA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            String queryInsercion  ="INSERT INTO `reserva` (`id_horario_dia`, `id_fecha`, `id_aula`) VALUES ('"+r.getId_aula()+"', '"+r.getId_horario_dia()+"', '"+r.getId_fecha()+"')";
+            exito = trscns.ejecutarQuery(queryInsercion);
+            System.out.println("Método insertar reserva");
+            return false;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return false;*/
+   public boolean insertarReserva(Reserva r) {
+    TransaccionesBD trscns = new TransaccionesBD();
+    LocalDate fecha = this.dateFecha.getValue();
+    int id_aula=r.getId_aula();
+    int horaDia= 0;
+         horaDia = r.getId_horario_dia();
+JOptionPane.showMessageDialog(null, "Entra ametodo insertar"+"id aula "+id_aula+"  id_h_Dia "+horaDia +" fecha "+ fecha, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    try {
+        String queryDuplicados = "SELECT COUNT(*) AS countReservas\n" +
+                            "FROM reserva r\n" +
+                            "JOIN fecha f ON r.id_fecha = f.id_fecha\n" +
+                            "WHERE r.id_horario_dia = ?\n" +
+                            "  AND r.descripcion IS NULL\n" +
+                            "  AND f.fecha = ?  \n" +
+                            "  AND r.id_aula = ? ;";
+
+       
+       int count =  trscns.contarDuplicadosNumero(queryDuplicados,horaDia,fecha, id_aula);
+
+        if (count > 0) { 
+            JOptionPane.showMessageDialog(null, "Ya existe un registro", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No existe registro, SE INSERTA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+            String queryInsercion = "INSERT INTO reserva (id_horario_dia, id_fecha, id_aula) VALUES (?, ?, ?)";
+            //boolean exito = trscns.ejecutarQuery(queryInsercion, r.getId_horario_dia(), fecha, r.getId_aula());
+
+            //return exito;
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al verificar duplicados o al insertar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+
+    return false;
+}
+
    
     public int seleAulaCapacidad(int id){
      

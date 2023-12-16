@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="323.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.IngresoReserva_Externa">
    <children>
-      <VBox prefHeight="64.0" prefWidth="300.0" />
+      <VBox layoutY="1.0" prefHeight="406.0" prefWidth="323.0" />
       <ComboBox fx:id="comboHora" layoutX="85.0" layoutY="140.0" prefWidth="180.0" promptText="Hora" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
       <DatePicker fx:id="dateFecha" layoutX="85.0" layoutY="220.0" prefWidth="180.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
       <ComboBox fx:id="comboNombreEdificio" layoutX="85.0" layoutY="20.0" prefWidth="179.0" promptText="Edificio" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />

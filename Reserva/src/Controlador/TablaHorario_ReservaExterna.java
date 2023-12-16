@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * FXML Controller class
@@ -262,10 +263,18 @@ public ObservableList<Horario> buscarTodos() {
 
     @FXML
     private void refrescar(ActionEvent event) {
-         for(String dia: listaDia){
-            System.out.println("dia "+ dia);         
-         }
-          System.out.println("dia ");   
+          rellenarTablaHorario();
+        
+        try {               
+            DefaultTableModel modelo = new DefaultTableModel();
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error al refrescar", "Error",JOptionPane.WARNING_MESSAGE);
+            return; 
+        }  
+      
+          
+          
     }
 
 
@@ -284,8 +293,8 @@ public ObservableList<Horario> buscarTodos() {
             Parent root = loader.load();//carga el parent            
             IngresoReserva_Externa controlador = loader.getController();//carga el controlador de esa vista                     
             //controlador.initAttributes(personas);
-    // controlador.setControladorEscena1(this);
-            //controlador.traerHorario(c); metod para cargar tabla desde base de datos 5/12/23 
+             controlador.setControladorEscena1(this); //trasla este objeto a otro escenario
+            controlador.traerHorario(c);// metod para cargar tabla desde base de datos 5/12/23 
             //controlador.seleCarrera();
             Scene scene = new Scene(root);
             Stage stage = new Stage(); 
@@ -308,5 +317,33 @@ public ObservableList<Horario> buscarTodos() {
 
     @FXML
     private void nuevaReserva(ActionEvent event) {
+         try {            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/IngresoReserva_Externa.fxml"));//carga una gerarqui DE OBJETOS        
+            Parent root = loader.load();//carga el parent            
+            IngresoReserva_Externa controlador = loader.getController();//carga el controlador de esa vista                     
+            //controlador.initAttributes(personas);
+    // controlador.setControladorEscena1(this);
+            //controlador.traerHorario(c); metod para cargar tabla desde base de datos 5/12/23 
+            //controlador.seleCarrera();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage(); 
+       // stage.setUserData(c);
+            this.tblHorario.getSelectionModel().clearSelection();
+            stage.initModality(Modality.APPLICATION_MODAL);//modal : hasta que no termine el no me deje
+            stage.setScene(scene);            
+            stage.showAndWait();  
+            
+          }catch (IOException ex) {             
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();  
+          } 
+        
+        
+        
+        
+        
     }
 }

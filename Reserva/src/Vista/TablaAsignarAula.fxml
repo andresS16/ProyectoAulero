@@ -25,13 +25,13 @@
             </HBox>
             <TableView fx:id="tblAsignarAula" onMouseClicked="#seleccionar" prefHeight="390.0" prefWidth="600.0">
                <columns>
-                  <TableColumn fx:id="colHora" prefWidth="95.0" text="Hora" />
+                  <TableColumn fx:id="colHora" prefWidth="60.0" text="Hora" />
                   
-                  <TableColumn fx:id="colLunes" prefWidth="74.0" text="Lunes" />
-                  <TableColumn fx:id="colMartes" prefWidth="119.0" text="Martes" />
-                  <TableColumn fx:id="colMiercoles" prefWidth="75.0" text="Miercoles" />
-                  <TableColumn fx:id="colJueves" prefWidth="75.0" text="Jueves" />
-                  <TableColumn fx:id="colViernes" prefWidth="75.0" text="Viernes" />
+                  <TableColumn fx:id="colLunes" prefWidth="100.0" text="Lunes" />
+                  <TableColumn fx:id="colMartes" prefWidth="100.0" text="Martes" />
+                  <TableColumn fx:id="colMiercoles" prefWidth="100.0" text="Miercoles" />
+                  <TableColumn fx:id="colJueves" prefWidth="100.0" text="Jueves" />
+                  <TableColumn fx:id="colViernes" prefWidth="100.0" text="Viernes" />
                 
                  
                </columns>

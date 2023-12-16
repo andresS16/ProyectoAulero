@@ -27,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * FXML Controller class
@@ -40,8 +41,8 @@ public class TablaAsignar implements Initializable {
     @FXML
     private TextField textBuscar;
     @FXML
-    private ChoiceBox<?> chcBuscar;
-    @FXML
+  /* private ChoiceBox<?> chcBuscar;
+    @FXML*/
     private Button btnBuscar;
     @FXML
     private TextField lblResultado;
@@ -178,6 +179,15 @@ public class TablaAsignar implements Initializable {
 
     @FXML
     private void refrescar(ActionEvent event) {
+          rellenarTablaHorario();
+        
+        try {               
+            DefaultTableModel modelo = new DefaultTableModel();
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error al refrescar", "Error",JOptionPane.WARNING_MESSAGE);
+            return; 
+        }  
     }
 
 

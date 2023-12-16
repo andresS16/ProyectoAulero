@@ -43,6 +43,9 @@ public class IngresoReserva_Externa implements Initializable {
     private ComboBox<String> comboNombreEdificio;
     @FXML
     private TextField txtCapacidadAula;
+    TablaHorario_ReservaExterna reservaExterna = new TablaHorario_ReservaExterna();
+    
+    
      
     TablaAsignar tablaAsignar = new TablaAsignar(); 
     ObservableList<String> listaEdificio = FXCollections.observableArrayList();     
@@ -53,6 +56,7 @@ public class IngresoReserva_Externa implements Initializable {
     ArrayList<String> listaDia = new ArrayList<>();
     @FXML
     private TextField txtDescripcion;
+    
     
     
     @Override
@@ -70,11 +74,12 @@ public class IngresoReserva_Externa implements Initializable {
        
     }    
     
-     public void setControladorEscena1(TablaAsignar controladorEscena1) {
-        this.tablaAsignar= controladorEscena1;
+     public void setControladorEscena1(TablaHorario_ReservaExterna controladorEscena1) {
+          this.reservaExterna= controladorEscena1;
+        //this.tablaAsignar= controladorEscena1;
     }
     public void llamarMetodoDeOtraEscena() {
-        if (tablaAsignar!= null) {
+        if (reservaExterna!= null) {
             JOptionPane.showMessageDialog(null,"Entra al metodo llamar metodoDeOtraScena","aviso" , JOptionPane.INFORMATION_MESSAGE);   
             //ActionEvent event = null;
             // Llamar al método del controlador de la primera escena
@@ -153,7 +158,7 @@ public class IngresoReserva_Externa implements Initializable {
        return lista;             
     }
       
-       public ArrayList<Horario> seleHora(){
+    public ArrayList<Horario> seleHora(){
         JOptionPane.showMessageDialog(null,"Ingresa metodo seleHora", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ArrayList<Horario> lista  = new ArrayList<>();        
         String query = "select hora FROM horario where 1 ORDER BY hora ASC;";       
@@ -203,8 +208,6 @@ public class IngresoReserva_Externa implements Initializable {
         
        JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
           
-          
-       
              
               //if (this.txtNumeroAula.getText().isEmpty() || this.txtCapacidad.getText().isEmpty() || comboEdificio.getSelectionModel().getSelectedItem() == null)
               if (this.comboNombreEdificio.getSelectionModel().getSelectedItem() == null || this.txtCapacidadAula.getText().isEmpty() 
@@ -403,6 +406,47 @@ public class IngresoReserva_Externa implements Initializable {
                
        return a;          
     }
+
+     public void traerHorario(Horario h){
+        // this.comboNombreEdificio.setValue(); se habilita cuando se selecciona el objeto
+       //  this.txtCapacidadAula.setText();
+        // String texto = txtCapacidadAula.getText();
+        // this.comboHora.
+      
+         //this.dateFecha.
+       // String[] numero= separarNumeroString( texto);
+        //this.idReserva.setValue();
+        //System.out.println("el numero del lunes es :"+ numero[0]);    
+        
+     
+     }
+     
+      private String[] separarNumeroString(String texto) {
+        String[] resultado = new String[2];
+        StringBuilder numero = new StringBuilder();
+        StringBuilder textoRestante = new StringBuilder();
+
+        // Recorrer cada carácter de la cadena ingresada
+        for (char c : texto.toCharArray()) {
+            if (Character.isDigit(c)) {
+                numero.append(c); // Agregar dígitos al número
+            } else {
+                textoRestante.append(c); // Agregar caracteres no numéricos al texto restante
+            }
+        }
+
+        resultado[0] = numero.toString(); // Número extraído
+        resultado[1] = textoRestante.toString(); // Texto restante
+
+        return resultado;
+    }
+     
+     
+     
+     
+     
+     
+     
 
     @FXML
     private void actionEvent(ActionEvent event) {
