@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -54,12 +55,20 @@ public class TablaAula implements Initializable {
     @FXML
     private TableView<Aula> tblAula;
     
-    @FXML
     private TableColumn<Aula, Integer> colNumAula;
-    @FXML
     private TableColumn<Aula,Integer> colCapacidad;
     @FXML
     private TableColumn<Aula,String> colEdificio;
+    @FXML
+    private TableColumn<?, ?> colNumeroAula;
+    @FXML
+    private TableColumn<?, ?> colCapacidadAula;
+    @FXML
+    private TableColumn<?, ?> colHora;
+    @FXML
+    private TableColumn<?, ?> colDia;
+    @FXML
+    private TableColumn<?, ?> colFecha;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -204,8 +213,7 @@ public class TablaAula implements Initializable {
           }          
         }
     }
-    
-  
+        
     public Aula buscarAulaNumero(int numBusqueda){
          
         String query ="SELECT * FROM aula WHERE numeroAula = " + numBusqueda;

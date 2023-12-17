@@ -112,7 +112,7 @@ public class TransaccionesBD {
 
     return count;
 }
-   public int contarDuplicadosNumero(String query, int param1 , LocalDate param2, int param3) {
+   public int contarDuplicadosNumero(String query, int param1 , LocalDate param2, int param3 ,int param4) {
     ConexionBD conexion = new ConexionBD();
     Connection conn = conexion.conectar();
     ResultSet rs = null;
@@ -123,12 +123,13 @@ public class TransaccionesBD {
         pstmtVerificar.setInt(1, param1);
         pstmtVerificar.setDate(2, java.sql.Date.valueOf(param2));
         pstmtVerificar.setInt(3, param3);
+        pstmtVerificar.setInt(4, param4);
        
         rs = pstmtVerificar.executeQuery();
         rs.next();
         count = rs.getInt(1);
         if(count >0){
-            JOptionPane.showMessageDialog(null, "TRAJO CONSULTA 1>0", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, " Aula ocupada : No disponible en ese horario ", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Error al verificar duplicados: " + e.getMessage());
@@ -142,26 +143,99 @@ public class TransaccionesBD {
 
     // ...
 
-    public ResultSet ejecutarConsultaParametrizada(String query, String parametro1, int parametro2) { // para hacer consultas para metrizadas
+   /* public ResultSet ejecutarConsultaParametrizada(String query, int param1 , int param2, int param3 ,int param4 ) { // para hacer consultas para metrizadas
         ConexionBD conexion = new ConexionBD();
         Connection conn = conexion.conectar();
         ResultSet rs = null;
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, parametro1);
-            pstmt.setInt(2, parametro2);
+            pstmt.setInt(1, param1);
+            pstmt.setInt(2, param2);
+            pstmt.setInt(3, param3);
+            pstmt.setInt(4, param4);
             
             rs = pstmt.executeQuery();
+             JOptionPane.showMessageDialog(null, "Ingreso exitoso ", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             // Manejar excepciones o errores aquí
             e.printStackTrace();
         }
 
         return rs;
+    }*/
+
+  
+   
+  public int ejecutarConsultaParametrizada(String query, int param1, int param2, int param3, int param4) {
+    ConexionBD conexion = new ConexionBD();
+    Connection conn = conexion.conectar();
+    int count = 0;
+
+    try {
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setInt(1, param1);
+        pstmt.setInt(2, param2);
+        pstmt.setInt(3, param3);
+        pstmt.setInt(4, param4);
+
+        count = pstmt.executeUpdate();
+
+        if (count > 0) {
+            JOptionPane.showMessageDialog(null, "Filas afectadas: " + count, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        // Cerrar recursos (PreparedStatement, Connection) aquí si es necesario
     }
 
-    // ...
+    return count;
+}
+  
+  
+public ResultSet ejecutarConsultaParametrizadaBUSCA_AULAS(String query, int capacidad, int horaDia, LocalDate fecha) {
+    ConexionBD conexion = new ConexionBD();
+    Connection conn = conexion.conectar();
+    ResultSet rs = null;
+
+    try {
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setInt(1, capacidad);
+        pstmt.setInt(2, horaDia);
+        pstmt.setDate(3, java.sql.Date.valueOf(fecha));
+
+        rs = pstmt.executeQuery();
+    } catch (SQLException e) {
+        // Manejar cualquier excepción de SQL
+        e.printStackTrace();
+    }
+
+    return rs;
+}
+public ResultSet ejecutarConsultaParametrizadaBUSCA_OPCION(String query, String dia, int capacidad, LocalDate fecha) {
+    ConexionBD conexion = new ConexionBD();
+    Connection conn = conexion.conectar();
+    ResultSet rs = null;
+
+    try {
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, dia);
+        pstmt.setInt(2, capacidad);
+        
+        pstmt.setDate(3, java.sql.Date.valueOf(fecha));
+        pstmt.setDate(4, java.sql.Date.valueOf(fecha));
+
+        rs = pstmt.executeQuery();
+    } catch (SQLException e) {
+        // Manejar cualquier excepción de SQL
+        e.printStackTrace();
+    }
+
+    return rs;
+}
+
+
 
 
     

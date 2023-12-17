@@ -44,7 +44,10 @@ public class IngresoAula implements Initializable {
     TablaAula tablaAula = new TablaAula();
     @FXML
     private ComboBox<String> comboEdificio;
-    
+  
+       
+     
+       
     ArrayList<String> listaEdificio = new ArrayList<>();
     
     
@@ -65,6 +68,8 @@ public class IngresoAula implements Initializable {
          comboEdificio.setStyle("-fx-alignment: CENTER_LEFT;");
         
     }
+     
+       
     public void llamarMetodoDeOtraEscena() {
         if (tablaAula != null) {
             JOptionPane.showMessageDialog(null,"Entra al metodo llamar metodoDeOtraScena","aviso" , JOptionPane.INFORMATION_MESSAGE);   

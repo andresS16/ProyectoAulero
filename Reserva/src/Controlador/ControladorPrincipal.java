@@ -42,6 +42,17 @@ public class ControladorPrincipal implements Initializable {
     private MenuItem reservaAula;
     @FXML
     private MenuItem btnAsignarAula;
+                                  
+
+    public ControladorPrincipal() {
+        // Inicialización del BorderPane
+        panel = new BorderPane();
+    }
+
+    public BorderPane getBorderPane() {
+        return panel;
+    }
+ 
 
     /**
      * Initializes the controller class.
@@ -143,10 +154,27 @@ public class ControladorPrincipal implements Initializable {
                                                                   
             } catch(IOException e){
                  System.out.println("tratar error"+ e.getMessage());            
-                  }
-          
-          }
-        
+               }      
+          }      
     }
     
+  public void ofrecerOpcion(){
+      
+              try {
+     FXMLLoader loader= new FXMLLoader();
+                loader.setLocation(ControladorPrincipal.class.getResource("/Vista/TablaOfrecerOpcion.fxml"));//FormularioLU.fxml
+
+                AnchorPane ventana = (AnchorPane) loader.load();
+                panel.setCenter(ventana);
+  
+    // Obtener el controlador si es necesario
+    ///TablaOfrecerOpcion  controlador = loader.getController();
+    // Realizar operaciones con el controlador si es necesario
+    
+        } catch (IOException e) {
+            System.out.println("Error al cargar la interfaz: " + e.getMessage());
+            // Manejar la excepción de manera más detallada si es necesario
+        }
+  
+    }
 }

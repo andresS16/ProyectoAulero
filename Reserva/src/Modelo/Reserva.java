@@ -20,6 +20,7 @@ public class Reserva {
     int id_fecha;
     int id_aula;
     int id_horario_dia;
+    int personas;
 
     public Reserva(int numeroEdificio, int numeroAula, int hora, String dia, LocalDate fecha) {
         this.numeroEdificio = numeroEdificio;
@@ -45,6 +46,14 @@ public class Reserva {
 
     public void setId_horario_dia(int id_horario_dia) {
         this.id_horario_dia = id_horario_dia;
+    }
+
+    public int getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(int personas) {
+        this.personas = personas;
     }
 
     
