@@ -309,8 +309,42 @@ public class IngresoReserva implements Initializable {
     @FXML
     private void guardarReserva(ActionEvent event) {
         
-        JOptionPane.showMessageDialog(null,"entro en metodo GuardarReserva ..vericar los id para reserva" ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
-          
+        
+        
+          if (this.comboNombreEdificio.getSelectionModel().getSelectedItem() == null || this.txtCapacidadAula.getText().isEmpty() 
+                      || this.comboCarrera.getSelectionModel().getSelectedItem() == null || this.comboMateria.getSelectionModel().getSelectedItem() == null || this.comboHora.getSelectionModel().getSelectedItem() == null ||
+                      this.comboDia.getSelectionModel().getSelectedItem() == null || this.dateFecha.getValue() == null) {
+            // Al menos uno de los campos está vacío o no seleccionado
+            JOptionPane.showMessageDialog(null,"Campos vacios verifique los datos " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+
+            if (this.comboNombreEdificio.getSelectionModel().getSelectedItem() == null ) {
+                // txtNumeroAula está vacío
+                // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
+                JOptionPane.showMessageDialog(null,"Falta seleccionar edificio " ,"aviso", JOptionPane.INFORMATION_MESSAGE); 
+             }if (this.txtCapacidadAula.getText().isEmpty() ) {
+                
+                JOptionPane.showMessageDialog(null,"Falata ingresar capacidad de aula solicitada ","aviso", JOptionPane.INFORMATION_MESSAGE);
+                
+            } if (this.comboCarrera.getSelectionModel().getSelectedItem() == null) {
+                        
+                JOptionPane.showMessageDialog(null,"Falta ingresar carrera  " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+                
+            }if (this.comboMateria.getSelectionModel().getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(null,"Falta ingresar  materia  " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+            }              
+                
+            } if (this.comboHora.getSelectionModel().getSelectedItem() == null) {
+                
+                JOptionPane.showMessageDialog(null,"Falta ingresar hora de la reserva  " ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+            }if (this.comboDia.getSelectionModel().getSelectedItem() == null  ) {
+                
+                JOptionPane.showMessageDialog(null," Falta ingresar dia de la reserva ","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }if (this.dateFecha.getValue() == null  ) {
+                
+                JOptionPane.showMessageDialog(null," Falta ingresar fecha ","aviso", JOptionPane.INFORMATION_MESSAGE);
+            }else {
+                
+                JOptionPane.showMessageDialog(null," campos con datos, puede operar en metodo guardar reserva","aviso", JOptionPane.INFORMATION_MESSAGE);
               String nombreEdificio= this.comboNombreEdificio.getValue();
               //nombreEdificio.trim();
               //int numAula = comboNumeroAula.getValue();
@@ -322,9 +356,6 @@ public class IngresoReserva implements Initializable {
               LocalDate fecha = dateFecha.getValue();
               insertarFecha(fecha);
               int id_fecha=seleIDFecha(fecha);
-              
-            
-              
                int id_aula=numAula(nombreEdificio,capAula );
                int id_horario_dia= HorarioID(dia,horaEntera);
          JOptionPane.showMessageDialog(null,"Selo lleva el metodo "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);      
@@ -341,8 +372,9 @@ public class IngresoReserva implements Initializable {
               reserva.setDia(dia);
        
               insertarReserva(reserva);
-              JOptionPane.showMessageDialog(null,"Loque queda al final "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
-       //insertarCarreraMateria(id_aula);
+              JOptionPane.showMessageDialog(null," valor de capacidadAula saliendo del metodos guardar "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+              insertarCarreraMateria(id_aula);     
+            }     
     }
     
     public boolean insertarFecha(LocalDate fecha){
@@ -522,7 +554,6 @@ LocalDate fecha = this.dateFecha.getValue();
 
                 if (count > 0) { 
 
-
                        int opcion = JOptionPane.showConfirmDialog(null, 
                                     "Desea ver aula con capacidad disponible? " , "confirmacion" ,JOptionPane.YES_NO_OPTION,2);
 
@@ -547,6 +578,7 @@ LocalDate fecha = this.dateFecha.getValue();
                                                 int capacidad = resultado.getInt("capacidad");
                                                 //int id_horarioDia= resultado.getInt("id_horario_dia");
                                                // Haz lo que necesites con los datos obtenidos, por ejemplo, mostrarlos en la consola
+                                               
                                                 System.out.println("Aula disponible: ID - " + idAula + ", Capacidad - " + capacidad );
                                                 JOptionPane.showMessageDialog(null, "Aula disponible: ID : " + idAula + ", Capacidad :" + capacidad, "Información", JOptionPane.INFORMATION_MESSAGE);
                                              }
@@ -585,14 +617,13 @@ LocalDate fecha = this.dateFecha.getValue();
                                             JOptionPane.showMessageDialog(null,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
                                     }
 
-
                     } else {
                         JOptionPane.showMessageDialog(null, "No existe registro, SE INSERTA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
-                      //  String queryInsercion = "INSERT INTO reserva (id_horario_dia, id_fecha, id_aula, personas) VALUES (?, ?, ?, ?)";
+                       String queryInsercion = "INSERT INTO reserva (id_horario_dia, id_fecha, id_aula, personas) VALUES (?, ?, ?, ?)";
 
 
-                       // int exito = trscns.ejecutarConsultaParametrizada(queryInsercion, horaDia , id_fecha , id_aula ,personas);
+                     int exito = trscns.ejecutarConsultaParametrizada(queryInsercion, horaDia , id_fecha , id_aula ,personas);
 
                         //return exito;
                     }
@@ -630,7 +661,7 @@ LocalDate fecha = this.dateFecha.getValue();
            return a;          
     }
 
-          public void insertarCarreraMateria(int id ){
+    public void insertarCarreraMateria(int id ){
 
                  JOptionPane.showMessageDialog(null,"Ingresa metodo insertar carreraMateria", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
 
@@ -701,6 +732,9 @@ LocalDate fecha = this.dateFecha.getValue();
         cambiarEscena(); // Cambiar a la nueva escena
     } else {
         // Acción si el usuario hace clic en "No" o cierra la ventana
+         Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
+         stage.close(); 
+       ///ll,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
     }
 }
 
@@ -766,14 +800,6 @@ System.out.println("valores que llegan al metodo opciones para ingresar ala cons
             "    AND f2.fecha = ? " +  // Parámetro para la fecha
             ") LIMIT 0, 25;";
 
-    
-    // Supongamos que tienes una instancia de TransaccionesBD llamada transaccionesBD
-// Ejemplo de capacidad
-
-
-
-    
-    
     
     ResultSet rs = trscns.ejecutarConsultaParametrizadaBUSCA_OPCION(query, dia, capacidad, fecha);
       

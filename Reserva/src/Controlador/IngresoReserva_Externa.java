@@ -245,8 +245,7 @@ public class IngresoReserva_Externa implements Initializable {
                 // txtCapacidad está vacío
                 // Realiza aquí la lógica correspondiente (puedes mostrar un mensaje de error)
                 JOptionPane.showMessageDialog(null,"Falta ingresar descrpcion","aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
-              else {
+        } else {
             // Todos los campos están completos y seleccionados
             // Realiza aquí la lógica para procesar los datos ingresados
             JOptionPane.showMessageDialog(null,"Campos con datos puede ingresar reserva" ,"aviso", JOptionPane.INFORMATION_MESSAGE);
