@@ -39,47 +39,21 @@ public class Reserva extends Application {
      @Override
     public void start(Stage primaryStage) throws IOException  {
         
-       /* Label l1 = new Label("Login");
-        Label luser = new Label ("usuario");
-        Label lcontr = new Label ("contraseña");
-        
-        TextField txtUser =new TextField();
-        TextField txtPassword = new TextField();
-        
-        Button btnIngresar = new Button("ingresar");
-        VBox root = new VBox();
-        
-        root.getChildren().addAll(l1,luser,txtUser,lcontr,txtPassword);
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
-       
-           /* Parent root = FXMLLoader.load(getClass().getResource("/vista/FormularioLU.fxml"));
-            Scene scene = new Scene (root);
-            primaryStage.setScene(scene);
-            primaryStage.show();*/
-        
-       
-        
      try{
             //new ControladorEscenario(primaryStage);
-            FXMLLoader loader= new FXMLLoader();
-            loader.setLocation(Reserva.class.getResource("/Vista/Principal.fxml"));//FormularioLU.fxml
-            
+           FXMLLoader loader= new FXMLLoader();
+           loader.setLocation(Reserva.class.getResource("/Vista/Formulario.fxml"));//FormularioLU.fxml          
+          //loader.setLocation(Reserva.class.getResource("/Vista/Formulario.fxml"));
             Pane ventana = (Pane) loader.load();
-            
-           
-            
             Scene scene = new Scene (ventana);
             primaryStage.setScene(scene);
             primaryStage.show();
+      
         
         } catch(IOException e){
             System.out.println("tratar error"+ e.getMessage());
         
-         }
-        
-        
+         }         
          
     }
     

@@ -123,7 +123,8 @@ public class IngresoAula implements Initializable {
                     }           
              }catch(HeadlessException | SQLException ex){
                    JOptionPane.showMessageDialog(null,"error en metodo traer aula " + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }   return a;           
+                    }   
+            return a;           
    }
          
      private void guardarAula() {

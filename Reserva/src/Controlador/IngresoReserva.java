@@ -74,10 +74,9 @@ public class IngresoReserva implements Initializable {
     @FXML
     private TextField txtCapacidadAula;
      BorderPane panel;
-  
-    
     
     TablaAsignar tablaAsignar = new TablaAsignar(); 
+    TablaOfrecerOpcion tablaOpcion = new TablaOfrecerOpcion();
     ObservableList<String> listaEdificio = FXCollections.observableArrayList();     
     ObservableList<Integer> listaAula = FXCollections.observableArrayList();
     ObservableList<String> listaCarrera = FXCollections.observableArrayList();
@@ -89,13 +88,8 @@ public class IngresoReserva implements Initializable {
     private ComboBox<String> comboCarrera;
     @FXML
     private ComboBox<String> comboMateria;
-
-
+    private Stage stageA;
   
-
-   
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         JOptionPane.showMessageDialog(null,"Entra en ingreso Reserva " ,"aviso" , JOptionPane.INFORMATION_MESSAGE);
@@ -116,9 +110,9 @@ public class IngresoReserva implements Initializable {
            listaMateria=seleMateria(newValue);                        
                         //comboMateria.setItems(materiaSeleccionada); // Configura el nuevo conjunto de materias en el ComboBox comboMateria                           
                         comboMateria.setItems(listaMateria);
-                    }
-      
+                    }   
            });     
+         
 
     }   
     /*SetConrolDOReSCEB() , seleEdiificio() , selenumeroAula , seleCapacidadAula, seleHora, seleDia, , 
@@ -130,11 +124,22 @@ public class IngresoReserva implements Initializable {
         this.tablaAsignar= controladorEscena1;
         
     }
-    
+       public void setControladorEscena1(TablaOfrecerOpcion controladorEscena1) {
+        this.tablaOpcion= controladorEscena1;
+        
+    }
+       public void setStageA(Stage stageA) {
+        this.stageA = stageA;
+    }
+        private void cerrarEscenaA() {
+            if (stageA != null) {
+                stageA.close(); // Cerrar la escena A si el Stage es válido
+            }
+        }
      
     public void llamarMetodoDeOtraEscena() {
         if (tablaAsignar!= null) {
-            JOptionPane.showMessageDialog(null,"Entra al metodo llamar metodoDeOtraScena","aviso" , JOptionPane.INFORMATION_MESSAGE);   
+           // JOptionPane.showMessageDialog(null,"Entra al metodo llamar metodoDeOtraScena","aviso" , JOptionPane.INFORMATION_MESSAGE);   
             //ActionEvent event = null;
             // Llamar al método del controlador de la primera escena
             //tablaHorario.refrescar(null); 
@@ -147,7 +152,7 @@ public class IngresoReserva implements Initializable {
     
     public ObservableList<String>seleEdificio(){
             
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificios", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
+         //      JOptionPane.showMessageDialog(null,"Ingresa metodo seleEdificios", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
                
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM edificio ";       
@@ -160,7 +165,7 @@ public class IngresoReserva implements Initializable {
                     String e="";                   
                     e =rs.getString("nombre");                  
                     lista.add(e);
-                    System.out.println("lo que trajo la consulta BD edificios :" +e);            
+                    System.out.println("nombre de edificios :" +e);            
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleEdificio" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -170,7 +175,7 @@ public class IngresoReserva implements Initializable {
     } 
         
     public ObservableList<Integer>seleNumeroAula(){
-              JOptionPane.showMessageDialog(null,"Ingresa metodo seleNumeroAula - trae numeros de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE); 
+             // JOptionPane.showMessageDialog(null,"Ingresa metodo seleNumeroAula - trae numeros de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE); 
         ObservableList<Integer>lista  = FXCollections.observableArrayList();  
         String query = "select numeroAula FROM aula ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -193,7 +198,7 @@ public class IngresoReserva implements Initializable {
     
       public ObservableList<Integer>seleCapacidadAula(){
                 
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula trae capaciddad de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
+       // JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula trae capaciddad de aulas ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
         
         ObservableList<Integer>lista  = FXCollections.observableArrayList();        
         String query = "select capacidad FROM aula ";       
@@ -205,7 +210,7 @@ public class IngresoReserva implements Initializable {
                    
                     int a=rs.getInt("numeroAula");                                     
                     lista.add(a);
-                    System.out.println("segun capacidad numeroAula :"+ a);                  
+                    System.out.println("aula segun capacidad numeroAula :"+ a);                  
                 }           
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleCapacidadAula" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -214,8 +219,8 @@ public class IngresoReserva implements Initializable {
        return lista;             
     }
       
-       public ArrayList<Horario> seleHora(){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleHora : ordena las horas de 8 a 21 hs ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+    public ArrayList<Horario> seleHora(){
+       // JOptionPane.showMessageDialog(null,"Ingresa metodo seleHora : ordena las horas de 8 a 21 hs ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ArrayList<Horario> lista  = new ArrayList<>();        
         String query = "select hora FROM horario where 1 ORDER BY hora ASC;";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -237,7 +242,7 @@ public class IngresoReserva implements Initializable {
     }
        
     public ArrayList<String> seleDia(){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleDia: trae los dias de la semana", "ERROR", JOptionPane.ERROR_MESSAGE);
+       // JOptionPane.showMessageDialog(null,"Ingresa metodo seleDia: trae los dias de la semana", "ERROR", JOptionPane.ERROR_MESSAGE);
         
         ArrayList<String> lista  = new ArrayList<>();                
         String query = "SELECT 'Lunes' AS dia UNION SELECT 'Martes' UNION SELECT 'Miércoles' UNION SELECT 'Jueves' UNION SELECT 'Viernes';";
@@ -260,7 +265,7 @@ public class IngresoReserva implements Initializable {
     }
     
      public ObservableList<String>seleCarrera(){
-               JOptionPane.showMessageDialog(null,"Ingresa metodo seleCarrera : trae las carreras ", "ERROR", JOptionPane.ERROR_MESSAGE);
+               //JOptionPane.showMessageDialog(null,"Ingresa metodo seleCarrera : trae las carreras ", "ERROR", JOptionPane.ERROR_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM carrera ";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -284,7 +289,7 @@ public class IngresoReserva implements Initializable {
       public ObservableList<String>seleMateria(String materia){
           
        
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria : trae materias de las carreras... valor del comboMateria es "+materia, "ERROR", JOptionPane.INFORMATION_MESSAGE);
+      //  JOptionPane.showMessageDialog(null,"Ingresa metodo seleMateria : trae materias de las carreras... valor del comboMateria es "+materia, "ERROR", JOptionPane.INFORMATION_MESSAGE);
         ObservableList<String>lista  = FXCollections.observableArrayList();;        
         String query = "select nombre FROM materia where carrera ='"+materia+"'";       
         TransaccionesBD trscns = new TransaccionesBD();
@@ -349,7 +354,7 @@ public class IngresoReserva implements Initializable {
               //nombreEdificio.trim();
               //int numAula = comboNumeroAula.getValue();
              int capAula = Integer.parseInt(this.txtCapacidadAula.getText()); 
-             JOptionPane.showMessageDialog(null,"Recibe capacidad del combo "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+             //JOptionPane.showMessageDialog(null,"Recibe capacidad del combo "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
            Horario hora = (Horario) this.comboHora.getValue();
               int horaEntera = Integer.parseInt(hora.getHora());
               String dia = (String) this.comboDia.getValue();
@@ -358,7 +363,7 @@ public class IngresoReserva implements Initializable {
               int id_fecha=seleIDFecha(fecha);
                int id_aula=numAula(nombreEdificio,capAula );
                int id_horario_dia= HorarioID(dia,horaEntera);
-         JOptionPane.showMessageDialog(null,"Selo lleva el metodo "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);      
+        // JOptionPane.showMessageDialog(null,"Exporta el metodo "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);      
                System.out.println("id_aula :"+id_aula);  
                System.out.println("id_horario_dia :"+id_horario_dia);  
                System.out.println("id_fecha : "+id_fecha);  
@@ -372,8 +377,8 @@ public class IngresoReserva implements Initializable {
               reserva.setDia(dia);
        
               insertarReserva(reserva);
-              JOptionPane.showMessageDialog(null," valor de capacidadAula saliendo del metodos guardar "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
-              insertarCarreraMateria(id_aula);     
+             // JOptionPane.showMessageDialog(null," valor de capacidadAula saliendo del metodos guardar "+capAula ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+                  
             }     
     }
     
@@ -409,13 +414,13 @@ public class IngresoReserva implements Initializable {
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-          JOptionPane.showMessageDialog(null,"el id de la fecha es "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
+       // JOptionPane.showMessageDialog(null,"el id de la fecha es "+a ,"aviso", JOptionPane.INFORMATION_MESSAGE);
        return a;          
     }
    
    
     public int numAula(String edificio, int capacidad){
-        JOptionPane.showMessageDialog(null,"Ingresa metodo numAula para buscar capacidad de aula ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+       // JOptionPane.showMessageDialog(null,"Ingresa metodo numAula para buscar capacidad de aula ", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         int a = 0;                   
         String query = "SELECT id_aula\n" +
                               "FROM aula\n" +
@@ -460,7 +465,7 @@ public class IngresoReserva implements Initializable {
                     System.out.println(" depurando  id_Horario_Dia :"+ a);                  
                 }           
             }catch(SQLException ex){
-                         JOptionPane.showMessageDialog(null,"error en metodo de Horario_ID" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(null,"error en metodo de Horario_ID" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
                       
        return a;          
@@ -539,8 +544,8 @@ LocalDate fecha = this.dateFecha.getValue();
         horaDia = r.getId_horario_dia();
         int id_fecha=r.getId_fecha();
       
-            JOptionPane.showMessageDialog(null, "Entra en metodo insertar"+"id aula "+id_aula+"  id_h_Dia "+horaDia +" fecha "+ fecha, "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            try {
+            //JOptionPane.showMessageDialog(null, "Entra en metodo insertar"+"id aula "+id_aula+"  id_h_Dia "+horaDia +" fecha "+ fecha, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        try {
                 String queryDuplicados = "SELECT COUNT(*) AS countReservas\n" +
                                     "FROM reserva r\n" +
                                     "JOIN fecha f ON r.id_fecha = f.id_fecha\n" +
@@ -552,13 +557,13 @@ LocalDate fecha = this.dateFecha.getValue();
 
                int count =  trscns.contarDuplicadosNumero(queryDuplicados,horaDia,fecha,personas ,id_aula);
 
-                if (count > 0) { 
-
-                       int opcion = JOptionPane.showConfirmDialog(null, 
+            if (count > 0) { 
+                 mostrarConfirmacion(r);
+              /*  int opcion = JOptionPane.showConfirmDialog(null, 
                                     "Desea ver aula con capacidad disponible? " , "confirmacion" ,JOptionPane.YES_NO_OPTION,2);
 
-                                if(opcion== JOptionPane.YES_OPTION  ){
-                                       String queryDisponibilidadAulas = "SELECT id_aula, capacidad " +
+                if(opcion== JOptionPane.YES_OPTION  ){
+                        String queryDisponibilidadAulas = "SELECT id_aula, capacidad " +
                                                     "FROM aula " +
                                                     "WHERE capacidad >= ? " +
                                                     "AND id_aula NOT IN ( " +
@@ -570,71 +575,62 @@ LocalDate fecha = this.dateFecha.getValue();
                                                     ")";
 
                                        // Ejecutar la consulta para obtener las aulas disponibles con la capacidad requerida
-                                       ResultSet resultado = trscns.ejecutarConsultaParametrizadaBUSCA_AULAS( queryDisponibilidadAulas,personas, horaDia, fecha );
+                         ResultSet resultado = trscns.ejecutarConsultaParametrizadaBUSCA_AULAS( queryDisponibilidadAulas,personas, horaDia, fecha );
 
-                                       try {
-                                            while (resultado.next()) {
-                                                int idAula = resultado.getInt("id_aula");
-                                                int capacidad = resultado.getInt("capacidad");
+                          try {
+                                while (resultado.next()) {
+                                int idAula = resultado.getInt("id_aula");
+                                int capacidad = resultado.getInt("capacidad");
                                                 //int id_horarioDia= resultado.getInt("id_horario_dia");
                                                // Haz lo que necesites con los datos obtenidos, por ejemplo, mostrarlos en la consola
                                                
-                                                System.out.println("Aula disponible: ID - " + idAula + ", Capacidad - " + capacidad );
-                                                JOptionPane.showMessageDialog(null, "Aula disponible: ID : " + idAula + ", Capacidad :" + capacidad, "Información", JOptionPane.INFORMATION_MESSAGE);
+                                System.out.println("Aula disponible: ID - " + idAula + ", Capacidad - " + capacidad );
+                                JOptionPane.showMessageDialog(null, "Aula disponible: ID : " + idAula + ", Capacidad :" + capacidad, "Información", JOptionPane.INFORMATION_MESSAGE);
                                              }
-                                        } catch (SQLException e) {
+                            } catch (SQLException e) {
                                                 // Manejo de excepciones si ocurre algún error al obtener los resultados
-                                                e.printStackTrace();
-                                            } finally {
+                                e.printStackTrace();
+                            } finally {
                                                 // Es importante cerrar el ResultSet después de su uso para liberar recursos
-                                                if (resultado != null) {
-                                                    try {
-                                                        resultado.close();
-                                                    } catch (SQLException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }
-                                        JOptionPane.showMessageDialog(null,"Fin del aviso " ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
-                                        //vaciarCampos(); 
-                                        
-                                        //principal.ofrecerOpcion();
-                                    
+                                    if (resultado != null) {
+                                         try {
+                                             resultado.close();
+                                             } catch (SQLException e) {
+                                                  e.printStackTrace();
+                                                 }
+                                       }
+                                 }                      
                                         /*Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
-                                        stage.close();*/
-                                       
+                                        stage.close();
                                         
-                                        JOptionPane.showMessageDialog(null,"valores que llegan para irse  : " +dia +" "+capacidadAula +" "+fecha , "ERROR", JOptionPane.INFORMATION_MESSAGE);
-                                       
+                       JOptionPane.showMessageDialog(null,"valores que llegan para irse  : " +dia +" "+capacidadAula +" "+fecha , "ERROR", JOptionPane.INFORMATION_MESSAGE);
                                         
-                                        
-                                       mostrarConfirmacion();
-                                          return true;
-                                 }else if(opcion== JOptionPane.NO_OPTION){
+                       mostrarConfirmacion(r);
+                       return true; 
+               }else if(opcion== JOptionPane.NO_OPTION){
                                             //vaciarCampos();
-                                            Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
-                                            stage.close(); 
-                                            JOptionPane.showMessageDialog(null,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
-                                    }
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No existe registro, SE INSERTA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-
-                       String queryInsercion = "INSERT INTO reserva (id_horario_dia, id_fecha, id_aula, personas) VALUES (?, ?, ?, ?)";
-
-
-                     int exito = trscns.ejecutarConsultaParametrizada(queryInsercion, horaDia , id_fecha , id_aula ,personas);
-
+                    Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
+                    stage.close(); 
+                    JOptionPane.showMessageDialog(null,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+                      }
+                                        */
+           } else {
+               JOptionPane.showMessageDialog(null, "No existe registro, SE INSERTA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+               String queryInsercion = "INSERT INTO reserva (id_horario_dia, id_fecha, id_aula, personas) VALUES (?, ?, ?, ?)";
+               int exito = trscns.ejecutarConsultaParametrizada(queryInsercion, horaDia , id_fecha , id_aula ,personas);
+                if(exito > 0){
+                 insertarCarreraMateria(id_aula);
+                 JOptionPane.showMessageDialog(null, "Se guardo con exito ", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
                         //return exito;
                     }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al verificar duplicados o al insertar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
+          } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al verificar duplicados o al insertar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
                 }
 
         return false;
     }
-
 
     public int seleAulaCapacidad(int id){
 
@@ -653,7 +649,7 @@ LocalDate fecha = this.dateFecha.getValue();
                 }catch(SQLException ex){
                     JOptionPane.showMessageDialog(null,"error en metodo de seleFecha" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
                 }                                  
-           JOptionPane.showMessageDialog(null,"busca el aula selecciona da por su capacidda id :" +a  , "ERROR", JOptionPane.INFORMATION_MESSAGE);
+          // JOptionPane.showMessageDialog(null,"busca el aula seleccionada por su capacidad id :" +a  , "ERROR", JOptionPane.INFORMATION_MESSAGE);
 
             this.comboNumeroAula.getItems().add(a);               
             this.comboNumeroAula.setValue(a);
@@ -663,8 +659,7 @@ LocalDate fecha = this.dateFecha.getValue();
 
     public void insertarCarreraMateria(int id ){
 
-                 JOptionPane.showMessageDialog(null,"Ingresa metodo insertar carreraMateria", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
-
+               //  JOptionPane.showMessageDialog(null,"Ingresa metodo insertar carreraMateria", "ERROR", JOptionPane.INFORMATION_MESSAGE);  
             ObservableList<Integer>lista  = FXCollections.observableArrayList(); 
             lista=buscarIdCarreraMateria();
             int id_materia =0;
@@ -680,19 +675,17 @@ LocalDate fecha = this.dateFecha.getValue();
               exito = trscns.ejecutarQuery(sqlFecha ); 
                  System.out.println("metodo insertaFecha :");  
               }catch(Exception ex){
-                  JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
-              
+                  JOptionPane.showMessageDialog(null,"error en metodo de seleHora" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);             
               }                     
     }
          
     public ObservableList<Integer>buscarIdCarreraMateria(){
                 
-        JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula. busca id_carrera id_materia ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
+       // JOptionPane.showMessageDialog(null,"Ingresa metodo seleCapacidadAula. busca id_carrera id_materia ", "ERROR", JOptionPane.INFORMATION_MESSAGE);    
         
         ObservableList<Integer>lista  = FXCollections.observableArrayList();        
         String query = "SELECT id_materia, id_carrera FROM materia\n" +
                                 "JOIN carrera ON materia.nombre = '"+this.comboMateria.getValue()+"' AND carrera.nombre = '"+this.comboCarrera.getValue()+"'";   
-
         
         TransaccionesBD trscns = new TransaccionesBD();
         ResultSet rs = trscns.realizarConsulta(query);
@@ -711,67 +704,110 @@ LocalDate fecha = this.dateFecha.getValue();
             }catch(SQLException ex){
                 JOptionPane.showMessageDialog(null,"error en metodo de seleCapacidadAula" + ex , "ERROR", JOptionPane.ERROR_MESSAGE);
             }                                  
-      JOptionPane.showMessageDialog(null,"Los id de carrera y materia : " +a +" "+b +"" , "ERROR", JOptionPane.INFORMATION_MESSAGE);
+    //  JOptionPane.showMessageDialog(null,"Los id de carrera y materia : " +a +" "+b +"" , "ERROR", JOptionPane.INFORMATION_MESSAGE);
        return lista;            
     }
     
-    
+    private void mostrarConfirmacion(Reserva r) {
+        
+        LocalDate fecha = this.dateFecha.getValue();
+        int capacidadAula=Integer.parseInt(this.txtCapacidadAula.getText());
+        String dia= r.getDia();
+        int id_aula=r.getId_aula();
+        int horaDia= 0;
+        int personas= r.getPersonas();
+        horaDia = r.getId_horario_dia();
+        int id_fecha=r.getId_fecha();
+              
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Desea ver aulas con capacidad disponible?");
+            ButtonType btnSi = new ButtonType("Sí", ButtonBar.ButtonData.YES);
+            ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(btnSi, btnNo);
+            Optional<ButtonType> result = alert.showAndWait();
+            
+        if (result.isPresent() && result.get() == btnSi) {
+            TransaccionesBD trscns = new TransaccionesBD();
+            String queryDisponibilidadAulas = "SELECT id_aula, capacidad " +
+                                                            "FROM aula " +
+                                                            "WHERE capacidad >= ? " +
+                                                            "AND id_aula NOT IN ( " +
+                                                            "    SELECT r.id_aula " +
+                                                            "    FROM reserva r " +
+                                                            "    JOIN fecha f ON r.id_fecha = f.id_fecha " +
+                                                            "    WHERE r.id_horario_dia = ? " +
+                                                            "    AND f.fecha = ? " +
+                                                            ")";
 
-    private void mostrarConfirmacion() {
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    alert.setTitle("Confirmación");
-    alert.setHeaderText(null);
-    alert.setContentText("¿Desea ver aulas con capacidad disponible?");
+                                               // Ejecutar la consulta para obtener las aulas disponibles con la capacidad requerida
+            ResultSet resultado = trscns.ejecutarConsultaParametrizadaBUSCA_AULAS( queryDisponibilidadAulas,personas, horaDia, fecha );
 
-    ButtonType btnSi = new ButtonType("Sí", ButtonBar.ButtonData.YES);
-    ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.NO);
-    alert.getButtonTypes().setAll(btnSi, btnNo);
+            try {
+                while (resultado.next()) {
+                    int idAula = resultado.getInt("id_aula");
+                    int capacidad = resultado.getInt("capacidad");
+                   //int id_horarioDia= resultado.getInt("id_horario_dia");                           
+                    System.out.println("Aula disponible: ID - " + idAula + ", Capacidad - " + capacidad );
+                        JOptionPane.showMessageDialog(null, "Aula disponible: ID : " + idAula + ", Capacidad :" + capacidad, "Información", JOptionPane.INFORMATION_MESSAGE);
+                                                     }
+                   }catch (SQLException e) {
+                                                        // Manejo de excepciones si ocurre algún error al obtener los resultados
+                         e.printStackTrace();
+                    } finally {
+                                                        // Es importante cerrar el ResultSet después de su uso para liberar recursos
+                        if (resultado != null) {
+                            try {
+                                resultado.close();
+                                } catch (SQLException e) {
+                                     e.printStackTrace();
+                                }
+                         }
+                      }                      
+                       /*Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
+                         stage.close();*/
+                      // JOptionPane.showMessageDialog(null,"valores que llegan para irse  : " +dia +" "+capacidadAula +" "+fecha , "ERROR", JOptionPane.INFORMATION_MESSAGE);
 
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.isPresent() && result.get() == btnSi) {
-        cambiarEscena(); // Cambiar a la nueva escena
-    } else {
-        // Acción si el usuario hace clic en "No" o cierra la ventana
-         Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
-         stage.close(); 
-       ///ll,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+            cambiarEscena(); // Cambiar a la nueva escena
+           
+        } else {
+            // Acción si el usuario hace clic en "No" o cierra la ventana
+             Stage stage =(Stage) this.btnGuardar.getScene().getWindow();
+             stage.close(); 
+               ///ll,"Operacion cancelada" ,"aviso" , JOptionPane.INFORMATION_MESSAGE); 
+            }
     }
-}
 
-        private void cambiarEscena() {
+    private void cambiarEscena() {
             String dia = this.comboDia.getValue();
             int capacidadAula= Integer.parseInt(this.txtCapacidadAula.getText());
             LocalDate fecha= this.dateFecha.getValue();
-    // Lógica para cambiar la escena
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/TablaOfrecerOpcion.fxml"));
-    Parent root;
-    try {
-         
-        root = loader.load();
-        TablaOfrecerOpcion opciones = loader.getController();
-         ObservableList<ModeloDeDatos> datos = seleOpciones(dia,capacidadAula, fecha);
-         opciones.configurarVentana(datos);
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) btnEliminar.getScene().getWindow(); // Obtener la ventana actual
-        stage.setScene(scene);
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace(); // Manejo de errores al cargar la nueva escena
-    }
-}
-
-
-        
+        // Lógica para cambiar la escena
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/TablaOfrecerOpcion.fxml"));
+        Parent root;
+        try {
+            root = loader.load();
+            TablaOfrecerOpcion opciones = loader.getController();
+             ObservableList<ModeloDeDatos> datos = seleOpciones(dia,capacidadAula, fecha);
+             opciones.configurarVentana(datos);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) btnEliminar.getScene().getWindow(); // Obtener la ventana actual
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace(); // Manejo de errores al cargar la nueva escena
+           }
+   }
+      
   public ObservableList<ModeloDeDatos> seleOpciones(String dia, int capacidad, LocalDate fecha) {
     TransaccionesBD trscns = new TransaccionesBD();
     ObservableList<ModeloDeDatos> opciones = FXCollections.observableArrayList();
   // LocalDate fecha = LocalDate.of(2023, 12, 1); // Ejemplo de fecha
    //String dia = "lunes"; // Ejemplo de día
     //int capacidad = 25;
-        
-        
-        
-System.out.println("valores que llegan al metodo opciones para ingresar ala consulta dia : "+dia + " capacidad :"+capacidad+ "fecha ;"+fecha);
+             
+        System.out.println("valores que llegan al metodo opciones para ingresar ala consulta dia : "+dia + " capacidad :"+capacidad+ "fecha ;"+fecha);
     String query = "SELECT a.numeroAula, a.capacidad, a.edificio, d.dia, f.fecha, hd.hora " +
             "FROM aula a " +
             "CROSS JOIN ( " +
@@ -799,8 +835,7 @@ System.out.println("valores que llegan al metodo opciones para ingresar ala cons
             "    AND r2.id_horario_dia = hd.id_horario_dia " +
             "    AND f2.fecha = ? " +  // Parámetro para la fecha
             ") LIMIT 0, 25;";
-
-    
+   
     ResultSet rs = trscns.ejecutarConsultaParametrizadaBUSCA_OPCION(query, dia, capacidad, fecha);
       
     try {
@@ -813,8 +848,7 @@ System.out.println("valores que llegan al metodo opciones para ingresar ala cons
 
             // Obtiene la fecha del ResultSet como Date y la convierte a LocalDate
             Date fechaSQL = rs.getDate("fecha");
-LocalDate fecha1 = ((java.sql.Date) fechaSQL).toLocalDate();
-
+            LocalDate fecha1 = ((java.sql.Date) fechaSQL).toLocalDate();
 
             int hora = rs.getInt("hora");
               modelo.setEdificio(edificio);
@@ -823,8 +857,6 @@ LocalDate fecha1 = ((java.sql.Date) fechaSQL).toLocalDate();
                  modelo.setDia(diaSemana);
             modelo.setCapacidad(capacidadAula);    
             modelo.setFecha(fecha1);
-           
-
             opciones.add(modelo);
             System.out.println("Metodo traer opciones " + numeroAula);
         }
@@ -835,7 +867,23 @@ LocalDate fecha1 = ((java.sql.Date) fechaSQL).toLocalDate();
 
     return opciones;
 }
-
+  
+    public void traerOpcion(ModeloDeDatos m){ //trae lo seleccionado de la tabla
+                                     
+        if(m!=null){ 
+            Horario horario = new Horario();
+            horario.setHora(m.getHora()+"");
+            this.comboNombreEdificio.setValue(m.getEdificio());
+            this.comboNumeroAula.setValue(m.getNumeroAula());
+            this.txtCapacidadAula.setText(m.getCapacidad()+"");
+            this.comboHora.setValue(horario);
+            this.comboDia.setValue(m.getDia());
+          
+            this.dateFecha.setValue(m.getFecha());
+            
+            JOptionPane.showMessageDialog(null, "controladorIngresoAula : Entro al metodo TraerOpcion" , "Error",JOptionPane.WARNING_MESSAGE); 
+            }    
+   }
 
     
 @FXML
