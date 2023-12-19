@@ -743,7 +743,7 @@ LocalDate fecha = this.dateFecha.getValue();
 
                                                // Ejecutar la consulta para obtener las aulas disponibles con la capacidad requerida
             ResultSet resultado = trscns.ejecutarConsultaParametrizadaBUSCA_AULAS( queryDisponibilidadAulas,personas, horaDia, fecha );
-
+            
             try {
                 while (resultado.next()) {
                     int idAula = resultado.getInt("id_aula");

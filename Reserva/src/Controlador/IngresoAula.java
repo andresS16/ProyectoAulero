@@ -44,10 +44,7 @@ public class IngresoAula implements Initializable {
     TablaAula tablaAula = new TablaAula();
     @FXML
     private ComboBox<String> comboEdificio;
-  
-       
-     
-       
+      
     ArrayList<String> listaEdificio = new ArrayList<>();
     
     

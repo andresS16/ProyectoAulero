@@ -55,20 +55,12 @@ public class TablaAula implements Initializable {
     @FXML
     private TableView<Aula> tblAula;
     
+    @FXML
     private TableColumn<Aula, Integer> colNumAula;
+    @FXML
     private TableColumn<Aula,Integer> colCapacidad;
     @FXML
     private TableColumn<Aula,String> colEdificio;
-    @FXML
-    private TableColumn<?, ?> colNumeroAula;
-    @FXML
-    private TableColumn<?, ?> colCapacidadAula;
-    @FXML
-    private TableColumn<?, ?> colHora;
-    @FXML
-    private TableColumn<?, ?> colDia;
-    @FXML
-    private TableColumn<?, ?> colFecha;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {

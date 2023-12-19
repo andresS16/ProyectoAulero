@@ -29,7 +29,7 @@
          <columns>
             <TableColumn fx:id="colEdificio" prefWidth="148.0" text="Numero de edificio" />
             <TableColumn fx:id="colNumeroAula" prefWidth="127.0" text="Cantidad aula" />
-            <TableColumn fx:id="colNombre" prefWidth="68.0" text="Nomnre" />
+            <TableColumn fx:id="colNombre" prefWidth="68.0" text="Nombre" />
          </columns>
       </TableView>
    </children>
